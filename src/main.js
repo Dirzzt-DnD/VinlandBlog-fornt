@@ -7,6 +7,7 @@ import 'element-plus/theme-chalk/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import axios from 'axios'
 
+import './assets/css/index.css'
 import VMdEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
 import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
