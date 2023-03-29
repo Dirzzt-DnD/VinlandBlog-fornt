@@ -15,12 +15,10 @@ var httpClient = axios.create(configOptions)
 
 httpClient.interceptors.request.use(config =>{
 
-	let token = getToken()
-
-	if(token){
-		config.headers['token'] = token
+	let needAuthentication = config.needAuthentication
+	if(needAuthentication){
+		config.headers['token'] = getToken()
 	}
-
 	return config
 },
 	(error) => {
@@ -49,17 +47,17 @@ httpClient.interceptors.response.use(response =>{
 	}
 },
 	(error) => {
-		const {status} = error.response
-		if(status===401){
-			ElMessage.warning('只有真正的战士才能执行此操作')
-		}else if(status===403){
-			ElMessage.warning('权限不足，当前你的资格不够进入瓦尔哈拉')
-		}else if(status===404){
-			ElMessage.warning('请求的资源不存在')
-		}else if(status===500){
-			ElMessage.warning('服务器异常')
-		}
-		return Promise.reject(error)
+		// const {status} = error.response
+		// if(status===401){
+		// 	ElMessage.warning('只有真正的战士才能执行此操作')
+		// }else if(status===403){
+		// 	ElMessage.warning('权限不足，当前你的资格不够进入瓦尔哈拉')
+		// }else if(status===404){
+		// 	ElMessage.warning('请求的资源不存在')
+		// }else if(status===500){
+		// 	ElMessage.warning('服务器异常')
+		// }
+		// return Promise.reject(error)
 	}
 )
 

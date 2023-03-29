@@ -12,7 +12,6 @@
     </el-table>
   </template>
 <script>
-import{checkArticleApi,deleteArticleApi,articleInfoListApi} from '../api/articleInfo'
 export default{
   data(){
     return{

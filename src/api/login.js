@@ -4,7 +4,16 @@ export function loginApi(userName, password){
     return http({
     'url': '/login',
     'method': 'post',
-    data: { userName, password }
+    data: { userName, password },
+    needAuthentication: false
+    })
+}
+
+export function logout(){
+    return http({
+        'url' : '/logout',
+        'method' : 'post',
+        needAuthentication:false
     })
 }
 
@@ -14,4 +23,17 @@ export function registerApi(userName, nickName, email, password){
         'method': 'post',
         data: { userName, nickName, email, password }
         })
+}
+
+export function getAdminInfo(){
+    return http({
+        'url':'/user/adminInfo',
+        'method':'get'
+    })
+}
+
+export function getUserInfo(){
+    return http({
+        'url':'/user/userInfo'
+    })
 }

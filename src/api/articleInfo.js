@@ -1,24 +1,15 @@
 import http from '../utils/http'
 
-export function checkArticleApi(articleId){
+export function getHotArticleList(){
     return http({
-        'url':'/article/{articleId}',
-        'method':'get',
-        articleId
+        'url': '/article/hotArticleList',
+        'method': 'get'
     })
 }
 
-export function deleteArticleApi(articleId){
+export function getArticleCount(){
     return http({
-        'url':'/article/{articleId}',
-        'method':'delete',
-        articleId
-    })
-}
-
-export function articleInfoListApi(){
-    return http({
-        'url':'/article',
+        'url':'/article/count',
         'method':'get'
     })
 }

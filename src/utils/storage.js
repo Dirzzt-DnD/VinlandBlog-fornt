@@ -32,5 +32,8 @@ function setUserInfo(userInfo) {
     localStorage.setItem('userInfo', JSON.stringify(userInfo))
 }
 
+function removeToken(){
+    localStorage.removeItem('token')
+}
 
-export { getToken, setToken, getUserInfo, setUserInfo }
+export { getToken, setToken, getUserInfo, setUserInfo,removeToken }

@@ -5,12 +5,11 @@ import router from './router'
 import ElementUI from 'element-plus'
 import 'element-plus/theme-chalk/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import axios from 'axios'
-
+import FontAwesomeIcon from "./utils/fontawesome-icons"
 import './assets/css/index.css'
+
 import VMdEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
-import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
 import '@kangc/v-md-editor/lib/theme/style/github.css';
 import createEmojiPlugin from '@kangc/v-md-editor/lib/plugins/emoji/index';
 import '@kangc/v-md-editor/lib/plugins/emoji/emoji.css';
@@ -35,5 +34,6 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 
 app.use(router)
 app.use(ElementUI)
+app.component("font-awesome-icon",FontAwesomeIcon)
 app.use(VMdEditor)
 app.mount('#app')

@@ -51,6 +51,7 @@ export default{
         VinlandCard
     },
     setup(){
+        removeToken();
         let ruleFormRef = ref();
         let ruleForm = reactive({
             userName: "",

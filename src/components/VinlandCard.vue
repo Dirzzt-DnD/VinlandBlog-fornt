@@ -26,6 +26,8 @@
 </script>
 
 <style>
+@import url(https://fonts.googleapis.com/css?family=Kanit:900);
+
 .card-header{
     justify-content: space-between;
     align-items: center;
@@ -39,6 +41,10 @@
 
 .card-body{
     padding: 0px 20px;
+}
+
+.card-header h2 {
+    font-family: "Kanit";
 }
 
 .card-body h3,
