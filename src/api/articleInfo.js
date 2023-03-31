@@ -13,3 +13,17 @@ export function getArticleCount(){
         'method':'get'
     })
 }
+
+
+export function getPostArticleList(pageNum, pageSize, categoryId) {
+    let params = { pageNum, pageSize }
+    if (categoryId) {
+        params.categoryId = categoryId
+    }
+
+    return http({
+        'url': '/article/articleList',
+        'method':'get',
+        params
+    })
+}

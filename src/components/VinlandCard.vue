@@ -65,9 +65,7 @@ import {reactive} from "vue"
     font-size: 17px;
     color: #4c4948;
 }
-.header-icon {
-    animation: floatAni 1s infinite;
-}
+
 
 
 </style>
