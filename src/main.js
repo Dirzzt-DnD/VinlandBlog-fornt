@@ -7,6 +7,7 @@ import 'element-plus/theme-chalk/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import FontAwesomeIcon from "./utils/fontawesome-icons"
 import './assets/css/index.css'
+import store from "./store";
 
 import VMdEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
@@ -33,6 +34,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 
 app.use(router)
+app.use(store)
 app.use(ElementUI)
 app.component("font-awesome-icon",FontAwesomeIcon)
 app.use(VMdEditor)

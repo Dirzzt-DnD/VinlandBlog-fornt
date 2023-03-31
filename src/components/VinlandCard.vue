@@ -1,26 +1,42 @@
 <template>
-    <el-card class="box-card">
-        <template #header>
-            <div class="card-header">
-                <h2>🗡VINLAND BLOG👑</h2>
-            </div>
-        </template>
-
-        <div class="card-body">
-            <p class="title">{{title}}</p>
-            <slot>Form-content</slot>
+     <div class="card">
+        <div class="card-header">
+            <span :style="headerIconStyle"
+                ><font-awesome-icon :icon="icon" class="header-icon"
+            /></span>
+            <span>{{ title }}</span>
         </div>
-    </el-card>
+        <div class="card-body">
+            <slot>卡片体</slot>
+        </div>
+    </div>
 </template>
 
 <script>
+import {reactive} from "vue"
     export default{
         name: "VINLAND BLOG",
         props: {
             title: {
                 type: String,
                 require:true
+            },
+            icon: {
+                type: Array,
+                require: true,
+            },
+            iconColor:{
+                type:String,
+                require:false,
+                default:"#4c4948",
             }
+        },
+
+        setup(props){
+            let headerIconStyle = reactive({
+            color: props.iconColor,
+        });
+        return { headerIconStyle };
         }
     }
 </script>
@@ -28,58 +44,30 @@
 <style>
 @import url(https://fonts.googleapis.com/css?family=Kanit:900);
 
-.card-header{
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-    height: 35px;
+.card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    padding: 20px 24px;
+    width: 100%;
+    margin-top: 30px;
+    box-sizing: border-box;
 }
-
-.el-card_header{
-    padding-top: 0px;
+.card-header {
+    text-align: left !important;
+    margin-bottom: 20px;
 }
-
-.card-body{
-    padding: 0px 20px;
+.header-icon {
+    font-size: 18px;
+    margin-right: 10px;
 }
-
-.card-header h2 {
-    font-family: "Kanit";
+.card-header span {
+    font-size: 17px;
+    color: #4c4948;
 }
-
-.card-body h3,
-.card-body p{
-    text-align: center;
+.header-icon {
+    animation: floatAni 1s infinite;
 }
-
-.card-body h3{
-    margin-top: 0px;
-}
-
-.text-muted{
-    color: #627d98;
-}
-
-.box-card{
-    width: 460px;
-    border: 1px solid transparent;
-    border-radius: 10px;
-    box-shadow: none !important;
-    margin: 0 auto;
-}
-
-.m-2 {
-    margin-top: 10px;
-}
-.m-3 {
-    margin-top: 15px;
-}
-.title {
-    font-size: 20px;
-    color: #627d98;
-    margin-top: 0px;
-}
-
 
 
 </style>

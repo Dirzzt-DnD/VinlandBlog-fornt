@@ -1,6 +1,6 @@
 <template>
     <div class="login">
-        <vinland-card title="欢迎回归约尔战士团">
+        <vinland-form-card title="欢迎回归约尔战士团">
             <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="0px" class="login-ruleForm">
                 <el-form-item prop="userName">
                     <el-input v-model="ruleForm.userName" class="w-50 m-3" size="large" placeholder="用户名">
@@ -30,15 +30,15 @@
                 想当战士？
                 <router-link to="/register">加入约尔战士团吧</router-link>
             </p>
-        </vinland-card>
+        </vinland-form-card>
     </div>
 </template>
 
 <script>
 import { ref,reactive } from 'vue';
 import VinlandButton from '../components/VinlandButton.vue'
-import VinlandCard from '../components/VinlandCard.vue'
-import { setToken, setUserInfo } from "../utils/storage";
+import VinlandFormCard from '../components/VinlandFormCard.vue'
+import { setToken, setUserInfo,removeToken } from "../utils/storage";
 import {loginApi} from '../api/login'
 import { md5Encryption } from "../utils/encrypt";
 import { ElMessage } from "element-plus";
@@ -48,7 +48,7 @@ export default{
     name: "Login",
     components: {
         VinlandButton,
-        VinlandCard
+        VinlandFormCard
     },
     setup(){
         removeToken();
@@ -109,6 +109,7 @@ export default{
     height: 100%;
     background: url("../assets/image/login-background.jpg");
     background-size: cover;
+    text-align: center;
 }
 
 #signup-hint{

@@ -66,41 +66,24 @@
 </template>
 
 <script>
-import { reactive } from 'vue';
+import { reactive,computed } from 'vue';
 import { getAdminInfo } from '../api/login';
 import { getArticleCount } from '../api/articleInfo';
+import { mapState } from '../store/map';
 
 export default{
     name:"VinlandAdminCard",
     setup(){
-        let adminInfo = reactive({
-            nickName:"",
-            motto:"",
-            avatar:"src/assets/image/avatar.jpg",
-            githubUrl:"https://github.com/Dirzzt-DnD",
-            email:""
-        })
 
-        let articleCountInfo = reactive({
-            artcle:0,
-            category:0,
-            tag:0
-        })
-
-         getAdminInfo().then((data)=>{
-            //delete data.avatar
-            Object.assign(adminInfo,data)
-        })
-
-        getArticleCount().then((data)=>{
-            Object.assign(articleCountInfo,data)
-        })
-
+        let{ adminInfo, articleCountInfo} = mapState("adminAbout")
         function gotoGithub(){
-            location.href = adminInfo.githubUrl
+            location.href = adminInfo.value.githubUrl
         }
+        let a = computed(()=>{
+            return {name:"hzz"}
+        })
 
-        return { adminInfo, articleCountInfo, gotoGithub };
+        return { adminInfo, articleCountInfo, gotoGithub,computed };
     }
 }
 </script>
@@ -110,12 +93,13 @@ export default{
 
 .admin-card {
     background: white;
-    border-radius: 15px;
+    border-radius: 8px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
     text-align: center;
     height: 400px;
-    width: 20%;
+    width: 100%;
     padding: 20px;
+    box-sizing: border-box;
 }
 .avatar {
     width: 120px;
@@ -147,6 +131,21 @@ h3 {
 .article-info {
     margin: 0 10px;
 }
+
+.admin-description h3 {
+    margin: 0px;
+    overflow: hidden;
+}
+.admin-description p {
+    margin: 4px;
+    font-size: 14px;
+    color: #555;
+    overflow: hidden;
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
 .social-icon-container {
     margin-top: 20px;
 }

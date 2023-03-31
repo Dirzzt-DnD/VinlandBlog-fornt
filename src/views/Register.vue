@@ -1,6 +1,6 @@
 <template>
     <div class="register">
-        <vinland-card title="成为战士吧">
+        <vinland-form-card title="成为战士吧">
             <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="0px" class="register-form">
                 <el-form-item prop="userName">
                     <el-input v-model="ruleForm.userName" class="w-5 m-3" size="large" placeholder="用户名">
@@ -51,12 +51,12 @@
                     <vinland-button @click="submitForm(ruleFormRef)">注册</vinland-button>
                 </el-form-item>
             </el-form>
-        </vinland-card>
+        </vinland-form-card>
     </div>
 </template>
 <script>
 import VinlandButton from '../components/VinlandButton.vue'
-import VinlandCard from '../components/VinlandCard.vue'
+import VinlandFormCard from '../components/VinlandFormCard.vue'
 import { ref,reactive } from 'vue';
 import { registerApi } from '../api/login';
 import { md5Encryption } from "../utils/encrypt";
@@ -65,7 +65,7 @@ export default{
     name: "register",
     components: {
         VinlandButton,
-        VinlandCard
+        VinlandFormCard
     },
 
     setup() {
