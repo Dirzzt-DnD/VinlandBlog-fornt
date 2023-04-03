@@ -50,6 +50,15 @@ let adminAbout = {
     }
 }
 
+let websiteAbout = {
+	namespaced: true,
+	state: {
+		startDate: "2023-03-01"
+	},
+	actions: {},
+	mutations: {},
+}
+
 export default createStore({
-	modules: { adminAbout },
+	modules: { adminAbout, websiteAbout },
 });

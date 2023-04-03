@@ -24,6 +24,7 @@ import VinlandCard from './VinlandCard.vue'
 import { getHotArticleList } from '../api/articleInfo'
 import cover from "../assets/image/article-thumbnail.jpg"
 import { ref,reactive } from 'vue';
+import { defaultThumbnail, useDefaultThumbnail } from "../utils/thumbnail";
 export default{
     name: "VinlandHotArticleCount",
     components:{
@@ -31,7 +32,6 @@ export default{
     },
     setup(){
         let hotArticleList = reactive([]);
-        let useDefaultThumbnailCover = cover
 
         getHotArticleList().then((data) => {
             data.forEach(article => {
@@ -42,10 +42,6 @@ export default{
             });
             hotArticleList.push(...data);
         });
-
-        function useDefaultThumbnail(event) {
-            event.target.src = defaultThumbnail;
-        }
 
         return { hotArticleList, useDefaultThumbnail };
 

@@ -37,6 +37,7 @@
 </template>
 <script>
 import { reactive } from "vue";
+import {useDefaultThumbnail } from "../utils/thumbnail";
 
 export default{
     name: "VinlandPostArticleCard",
@@ -61,10 +62,6 @@ export default{
         }
 
         let defaultThumbnail = "src/assets/image/article-thumbnail.jpg";
-
-        function useDefaultThumbnail(event) {
-            event.target.src = defaultThumbnail;
-        }
 
         return { cardClass, thumbnailLinkClass, useDefaultThumbnail };
     }

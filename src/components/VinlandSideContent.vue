@@ -14,12 +14,4 @@ export default{
 }
 </script>
 <style>
-.side-content{
-    width: 26%;
-}
-@media screen and (max-width: 900px) {
-    .side-content {
-        display: none;
-    }
-}
 </style>

@@ -7,9 +7,21 @@
       <vinland-side-content></vinland-side-content>
       
       <div class="post-article-list">
-        <vinland-post-article-card v-for="(article,index) in postArticleList" :key="id" :article="article" :reverse="index % 2 == 1"/>
+        <vinland-post-article-card v-for="(article,index) in postArticleList" :key="article.id" :article="article" :reverse="index % 2 == 1"/>
+        <!-- 分页 -->
+        <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="articleCount"
+                    :page-size="10"
+                    id="pagination"
+                    @current-change="onCurrentPageChanged"
+                >
+        </el-pagination>
       </div>
     </div>
+
+    <vinland-footer :adminName="$store.state.adminAbout.adminInfo.nickName"/>
     <vinland-back-to-top/>
   </div>
 </template>
@@ -23,6 +35,8 @@ import VinlandBackToTop from '../components/VinlandBackToTop.vue';
 import store from '../store'
 import VinlandPostArticleCard from "../components/VinlandPostArticleCard.vue";
 import { getPostArticleList } from "../api/articleInfo"
+import VinlandFooter from "../components/VinlandFooter.vue";
+import { defaultThumbnail } from "../utils/thumbnail";
 
   export default{
     name: "Home",
@@ -32,6 +46,7 @@ import { getPostArticleList } from "../api/articleInfo"
     VinlandHeader,
     VinlandBackToTop,
     VinlandPostArticleCard,
+    VinlandFooter,
 },
 
     setup(){
@@ -41,17 +56,20 @@ import { getPostArticleList } from "../api/articleInfo"
       let postArticleList = reactive([])
       let articleCount = ref(0)
 
-      getPostArticleList(0,10).then((data) => {
-        console.log(data)
-        articleCount = data.total;
-        data.rows.forEach((article) => {
-                article.createTime = article.createTime.split(" ")[0];
-                article.thumbnail = article.thumbnail || defaultThumbnail;
-            });
-            postArticleList.push(...data.rows);
-      })
+      onCurrentPageChanged(1);
 
-      return { postArticleList, articleCount };
+      function onCurrentPageChanged(pageNum) {
+        getPostArticleList(pageNum, 10).then((data) => {
+          articleCount.value = parseInt(data.total);
+          data.rows.forEach((article) => {
+            article.createTime = article.createTime.split(" ")[0];
+            article.thumbnail = article.thumbnail || defaultThumbnail;
+          });
+          postArticleList.splice(0, postArticleList.length, ...data.rows);
+        });
+        }
+
+      return { postArticleList, articleCount,onCurrentPageChanged};
     }
   }
 </script>
@@ -68,6 +86,7 @@ import { getPostArticleList } from "../api/articleInfo"
   max-width: 1300px;
   margin: 0% top;
   display: flex;
+  animation: fadeInUp 1s;
 }
 .post-article-list {
     width: 74%;
@@ -80,5 +99,53 @@ import { getPostArticleList } from "../api/articleInfo"
     margin-top: 0;
 }
 
+.side-content {
+    width: 26%;
+    margin-right: 20px;
+}
+#pagination {
+    margin-top: 20px;
+    justify-content: center;
+}
+:deep(#pagination > button) {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    background: white;
+    border-radius: 8px;
+    height: 35px;
+    width: 35px;
+}
 
+:deep(#pagination li) {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    /*FIXME ?*/ 
+    background-color: white;
+    border-radius: 8px;
+    margin: 0 6px;
+    height: 35px;
+    width: 35px;
+}
+:deep(#pagination li.active) {
+    color: white;
+    background: #1892ff;
+    font-weight: normal;
+}
+
+@media screen and (max-width: 900px) {
+    .side-content {
+        display: none;
+    }
+    .post-article-list {
+        width: 100%;
+    }
+}
+@keyframes fadeInUp {
+    from {
+        margin-top: 50px;
+        opacity: 0;
+    }
+    to {
+        margin-top: 0;
+        opacity: 1;
+    }
+}
 </style>
