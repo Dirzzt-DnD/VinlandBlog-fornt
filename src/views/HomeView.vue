@@ -52,6 +52,8 @@ import { defaultThumbnail } from "../utils/thumbnail";
     setup(){
       store.dispatch("adminAbout/getAdminInfo");
       store.dispatch("adminAbout/getArticleCount");
+      store.dispatch("categoryAbout/getCategories");
+      store.dispatch("tagAbout/getTags");
 
       let postArticleList = reactive([])
       let articleCount = ref(0)

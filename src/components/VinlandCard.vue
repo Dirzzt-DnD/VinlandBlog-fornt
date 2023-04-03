@@ -15,7 +15,7 @@
 <script>
 import {reactive} from "vue"
     export default{
-        name: "VINLAND BLOG",
+        name: "VinlandCard",
         props: {
             title: {
                 type: String,

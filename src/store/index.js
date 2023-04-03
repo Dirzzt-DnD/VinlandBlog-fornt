@@ -1,7 +1,9 @@
 import { createStore } from "vuex";
 import { getAdminInfo } from '../api/login'
 import { getArticleCount } from '../api/articleInfo'
-import { data } from "jquery";
+import { getCategoryList } from '../api/categoryInfo'
+import { getTagList } from '../api/tagInfo'
+
 
 let adminAbout = {
     namespaced: true,
@@ -59,6 +61,52 @@ let websiteAbout = {
 	mutations: {},
 }
 
+let categoryAbout = {
+    namespaced: true,
+    state: {
+        categories:[]
+    },
+    actions: {
+        getCategories(context){
+            return new Promise((resolve) => {
+                getCategoryList().then(data => {
+                    context.commit('updateCategories',data)
+                    resolve()
+                })
+            })
+        }
+    },
+    mutations: {
+		updateCategories(state, data) {
+			state.categories = data
+		}
+    }
+
+    
+}
+
+let tagAbout = {
+    namespaced : true,
+    state:{
+        tags:[]
+    },
+    actions: {
+        getTags(context){
+            return new Promise((resolve)=>{
+                getTagList().then(data => {
+                    context.commit('updateTags',data)
+                    resolve()
+                })
+            })
+        }
+    },
+    mutations:{
+        updateTags(state,data){
+            state.tags = data
+        }
+    }
+}
+
 export default createStore({
-	modules: { adminAbout, websiteAbout },
+	modules: { adminAbout, websiteAbout,categoryAbout, tagAbout },
 });

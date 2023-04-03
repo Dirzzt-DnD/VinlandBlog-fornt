@@ -79,9 +79,6 @@ export default{
         function gotoGithub(){
             location.href = adminInfo.value.githubUrl
         }
-        let a = computed(()=>{
-            return {name:"hzz"}
-        })
 
         return { adminInfo, articleCountInfo, gotoGithub,computed };
     }
