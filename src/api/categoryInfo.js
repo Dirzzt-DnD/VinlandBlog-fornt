@@ -1,8 +1,8 @@
 import http from "../utils/http"
 
-export function getCategoryList(){
+export function getCategoryCountList(){
     return http({
-        'url':'/category/getCategoryList',
+        'url':'/category/getCategoryCount',
         'method':'get'
     })
 }

@@ -18,8 +18,8 @@ export default{
         VinlandCard
     },
     setup(){
-        let { tags } = mapState("tagAbout");
-        let tagClouds = computed(() => linearColorWordCloud(tags.value));
+        let { tagCounts } = mapState("tagAbout");
+        let tagClouds = computed(() => linearColorWordCloud(tagCounts.value));
         return { tagClouds };
     }
 }

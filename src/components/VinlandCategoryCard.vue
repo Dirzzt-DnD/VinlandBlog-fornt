@@ -2,7 +2,7 @@
     <vinland-card :icon="['fas', 'folder']" iconColor="#fcd53f" title="分类">
         <div class="category-list">
             <router-link
-                v-for="category in categories"
+                v-for="category in categoryCounts"
                 :key="category.id"
                 :to="`/category/${category.id}`"
                 class="category-item"
@@ -22,8 +22,8 @@ export default{
         VinlandCard,
     },
     setup() {
-        let { categories } = mapState("categoryAbout");
-        return { categories };
+        let { categoryCounts } = mapState("categoryAbout");
+        return { categoryCounts };
     },
 }
 </script>

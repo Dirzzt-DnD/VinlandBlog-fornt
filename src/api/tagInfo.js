@@ -1,8 +1,8 @@
 import http from '../utils/http'
 
-export function getTagList(){
+export function getTagCountList(){
     return http({
-        'url':'/tag',
+        'url':'/tag/tagCount',
         'method':'get'
     })
 }

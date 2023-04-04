@@ -7,19 +7,13 @@
                 <font-awesome-icon :icon="['fab','fort-awesome']" class="menu-icon"></font-awesome-icon>
                 <span>首页</span>
             </el-menu-item>
-            <el-sub-menu index="2">
-                <template #title>
-                    <font-awesome-icon
-                        :icon="['fas', 'box-archive']"
-                        class="menu-icon"
-                    />
-                    <span>归档</span>
-                </template>
-
-                <el-menu-item index="2-1">🎯 2022 年 1 月（2）</el-menu-item>
-                <el-menu-item index="2-2">🎯 2022 年 2 月（3）</el-menu-item>
-                
-            </el-sub-menu>
+            <el-menu-item index="2">
+                <font-awesome-icon
+                    :icon="['fas', 'box-archive']"
+                    class="menu-icon"
+                />
+                <span>归档</span>
+            </el-menu-item>
 
             <el-sub-menu index="3">
                 <template #title>
@@ -29,7 +23,7 @@
                     />
                     <span>分类</span>
                 </template>
-                <el-menu-item v-for="category in $store.state.categoryAbout.categories"
+                <el-menu-item v-for="category in $store.state.categoryAbout.categoryCounts"
                  :key="category.id" :index="'3-' + category.id" class="category-item">
                  <span class="category-name">{{ category.name }}</span>
                 <span class="category-count">{{ category.count }}</span>
@@ -46,7 +40,7 @@
                     <span>标签</span>
                 </template>
                 <el-menu-item
-                    v-for="tag in $store.state.tagAbout.tags"
+                    v-for="tag in $store.state.tagAbout.tagCounts"
                     :key="tag.id"
                     :index="'4-' + tag.id"
                     class="category-item"
