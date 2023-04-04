@@ -2,8 +2,8 @@
     <div class="card">
         <div class="card-header">
             <div>
-                <span :style="headerIconStyle"
-                    ><font-awesome-icon
+                <span>
+                    <font-awesome-icon
                         :icon="['fas', 'box-archive']"
                         class="header-icon"
                 /></span>
