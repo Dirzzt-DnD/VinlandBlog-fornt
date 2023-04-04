@@ -27,3 +27,10 @@ export function getPostArticleList(pageNum, pageSize, categoryId) {
         params
     })
 }
+
+export function getArticleDetails(id){
+    return http({
+        'url':'/article/'+id,
+        'method':'get'
+    })
+}

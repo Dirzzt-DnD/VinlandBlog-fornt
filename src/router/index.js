@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import StartView from '../views/StartView.vue'
 import UploadArticleView from '../views/UploadArticleView.vue'
 import ArticleInfoTableView from '../views/ArticleInfoTableView.vue'
+import ArticleDetails from '../views/ArticleDetails.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import HomeView from '../views/HomeView.vue'
@@ -58,6 +59,12 @@ const router = createRouter({
       meta: {
         title: '起始页'
       }
+    },
+    {
+      path: "/article/:id",
+      name: "Article",
+      component: ArticleDetails,
+      props: true
     },
   ]
 })

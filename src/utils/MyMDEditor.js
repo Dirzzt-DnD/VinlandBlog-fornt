@@ -6,6 +6,8 @@ import '@kangc/v-md-editor/lib/plugins/emoji/emoji.css';
 import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 import Prism from 'prismjs';
+import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index';
+import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
 
 
 VMdEditor.use(vuepressTheme, {
@@ -16,5 +18,5 @@ VMdEditor.use(vuepressTheme, {
     },
   });
   VMdEditor.use(createEmojiPlugin())
-
+  VMdEditor.use(createCopyCodePlugin());
   export default VMdEditor

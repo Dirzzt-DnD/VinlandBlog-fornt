@@ -1,20 +1,21 @@
-<script setup>
-import ArticleInfoTableView from './views/ArticleInfoTableView.vue'
-import StartView from './views/StartView.vue'
-</script>
-
 <template>
   <router-view></router-view>
 </template>
-<style>
-/* #app {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-} */
 
+<script>
+import store from './store';
+export default{
+  name:"App",
+  setup(){
+      store.dispatch("adminAbout/getAdminInfo");
+      store.dispatch("adminAbout/getArticleCount");
+      store.dispatch("categoryAbout/getCategoryCounts");
+      store.dispatch("tagAbout/getTagCounts");
+  }
+}
+</script>
+
+<style>
 ::-webkit-scrollbar{
   height: 14px;
   width: 4px;
@@ -30,6 +31,8 @@ height: 100%;
 
 body{
   overflow: overlay;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 :root {

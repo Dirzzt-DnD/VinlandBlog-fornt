@@ -4,7 +4,13 @@
     <vinland-cover imgUrl="src/assets/image/home-cover.jpg" title="Vinland Blog" content="真正的战士不用剑">
     </vinland-cover>
     <div class="container">
-      <vinland-side-content></vinland-side-content>
+      <div class="side-content">
+        <vinland-admin-card></vinland-admin-card>
+        <vinland-hot-article-card/>
+        <vinland-category-card/>
+        <vinland-tag-card/>
+        <vinland-archive-card/>
+      </div>
       
       <div class="post-article-list">
         <vinland-post-article-card v-for="(article,index) in postArticleList" :key="article.id" :article="article" :reverse="index % 2 == 1"/>
@@ -29,32 +35,35 @@
 <script>
 import { reactive, ref } from "vue";
 import VinlandCover from '../components/VinlandCover.vue';
-import VinlandSideContent from '../components/VinlandSideContent.vue';
 import VinlandHeader from '../components/VinlandHeader.vue';
 import VinlandBackToTop from '../components/VinlandBackToTop.vue';
-import store from '../store'
 import VinlandPostArticleCard from "../components/VinlandPostArticleCard.vue";
 import { getPostArticleList } from "../api/articleInfo"
 import VinlandFooter from "../components/VinlandFooter.vue";
 import { defaultThumbnail } from "../utils/thumbnail";
 
+import VinlandAdminCard from "../components/VinlandAdminCard.vue"
+import VinlandHotArticleCard from "../components/VinlandHotArticleCard.vue";
+import VinlandCategoryCard from "../components/VinlandCategoryCard.vue";
+import VinlandTagCard from "../components/VinlandTagCard.vue";
+import VinlandArchiveCard from "../components/VinlandArchiveCard.vue";
+
   export default{
     name: "Home",
     components:{
     VinlandCover,
-    VinlandSideContent,
     VinlandHeader,
     VinlandBackToTop,
     VinlandPostArticleCard,
     VinlandFooter,
+    VinlandAdminCard,
+    VinlandHotArticleCard,
+    VinlandCategoryCard,
+    VinlandTagCard,
+    VinlandArchiveCard
 },
 
     setup(){
-      store.dispatch("adminAbout/getAdminInfo");
-      store.dispatch("adminAbout/getArticleCount");
-      store.dispatch("categoryAbout/getCategoryCounts");
-      store.dispatch("tagAbout/getTagCounts");
-
       let postArticleList = reactive([])
       let articleCount = ref(0)
 
