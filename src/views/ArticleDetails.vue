@@ -27,7 +27,10 @@
             <!-- 侧边栏 -->
             <div class="side-content">
                 <vinland-admin-card />
-                <vinland-hot-article-card />
+                <div class="sticky-layout">
+                    <vinland-catalog-card v-if="articleLoaded"/>
+                    <vinland-hot-article-card />
+                </div>
             </div>
 
             <!-- 文章内容 -->
@@ -55,11 +58,12 @@ import VinlandWifeCover from '../components/VinlandWifeCover.vue';
 import VinlandAdminCard from '../components/VinlandAdminCard.vue';
 import VinlandHotArticleCard from '../components/VinlandHotArticleCard.vue';
 import VinlandBackToTop from '../components/VinlandBackToTop.vue';
+import VinlandCatalogCard from '../components/VinlandCatalogCard.vue';
 import { getArticleDetails } from "../api/articleInfo";
-import { reactive, nextTick } from "vue";
+import { reactive, nextTick, ref, onUpdated } from "vue";
 import VMdEditor from '../utils/MyMDEditor';
 import { xss } from '@kangc/v-md-editor';
-import { buildHljsLineNumber, highlightCode } from "../utils/hljs";
+import { buildHljsLineNumber } from "../utils/hljs";
 import buildCopyButton from "../utils/copyButton";
 
 export default{
@@ -69,10 +73,13 @@ export default{
         VinlandFooter,
         VinlandBackToTop,
         VinlandHotArticleCard,
-        VinlandWifeCover
+        VinlandWifeCover,
+        VinlandCatalogCard,
     },
     setup(props){
         window.scrollTo({ top: 0 });
+
+        let articleLoaded = ref(false);
 
         let articleDetails = reactive({});
 
@@ -84,16 +91,22 @@ export default{
             nextTick(() => {
                 buildHljsLineNumber();
                 buildCopyButton();
+                articleLoaded.value = true;
             })
             })
 
-        return { articleDetails };
+        return { articleDetails, articleLoaded};
     },
      props: ["id"],
 }
 
 </script>
 <style lang="less" scoped>
+
+.sticky-layout {
+    position: sticky;
+    top: 20px;
+}
 .container {
     padding: 40px 15px;
     max-width: 1300px;

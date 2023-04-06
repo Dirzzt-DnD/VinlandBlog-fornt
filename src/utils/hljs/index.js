@@ -69,7 +69,7 @@ hljs.registerLanguage('c', c);
 
 
 
-
+hljs.configure({ ignoreUnescapedHTML: true });
 
 
 function buildHljsLineNumber() {
