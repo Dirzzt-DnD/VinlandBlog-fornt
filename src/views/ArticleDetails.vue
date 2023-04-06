@@ -60,11 +60,12 @@ import VinlandHotArticleCard from '../components/VinlandHotArticleCard.vue';
 import VinlandBackToTop from '../components/VinlandBackToTop.vue';
 import VinlandCatalogCard from '../components/VinlandCatalogCard.vue';
 import { getArticleDetails } from "../api/articleInfo";
-import { reactive, nextTick, ref, onUpdated } from "vue";
+import { reactive, nextTick, ref } from "vue";
 import VMdEditor from '../utils/MyMDEditor';
 import { xss } from '@kangc/v-md-editor';
-import { buildHljsLineNumber } from "../utils/hljs";
-import buildCopyButton from "../utils/copyButton";
+// import { buildHljsLineNumber } from "../utils/hljs";
+// import buildCopyButton from "../utils/copyButton";
+import buildCodeBlock from "../utils/code-block";
 
 export default{
     components:{
@@ -89,8 +90,10 @@ export default{
             articleDetails.content = html
 
             nextTick(() => {
-                buildHljsLineNumber();
-                buildCopyButton();
+                //调用querySelector更方便将html元素调用进去而不是直接传class名称
+                // buildHljsLineNumber();
+                // buildCopyButton();
+                buildCodeBlock(".article-content");
                 articleLoaded.value = true;
             })
             })

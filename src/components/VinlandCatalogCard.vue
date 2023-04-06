@@ -103,7 +103,9 @@ export default{
                     lastNode.id = id;
                     lastNode.level = level;
                 }
+                console.log(lastNode)
                 serialNumbers[level] += 1;
+                console.log(serialNumbers)
                 let serialNumber = serialNumbers.slice(0, level + 1).join(".");
                 titles.push({
                     id: id,
