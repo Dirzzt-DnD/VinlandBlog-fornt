@@ -34,3 +34,10 @@ export function getArticleDetails(id){
         'method':'get'
     })
 }
+
+export function updateViewCount(id){
+    return http({
+        'url':'/article/updateViewCount/'+id,
+        'method':'put'
+    })
+}

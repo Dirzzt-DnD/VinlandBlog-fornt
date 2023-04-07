@@ -40,9 +40,55 @@
                     v-html="articleDetails.content"
                     v-highlight
                 ></div>
+
+
+            <div class="article-signature">
+                <div class="avatar">
+                    <img :src="adminInfo.avatar" alt="头像">
+                </div>
+                <div class="copyright">
+                    <div class="copyright-item">
+                        <span class="copyright-title">文章作者：</span>
+                            <span class="copyright-content">
+                                <router-link to="/">
+                                    {{ adminInfo.nickName }}</router-link
+                                ></span>
+                    </div>
+                    <div class="copyright-item">
+                        <span class="copyright-title">文章链接：</span>
+                        <span class="copyright-content">
+                        <a :href="articleUrl">{{ articleUrl }}</a>
+                        </span>
+                    </div>
+                        <div class="copyright-item">
+                            <span class="copyright-title">版权声明：</span>
+                            <span class="copyright-content">
+                                本博客所有文章除特别声明外，均采用
+                                <a
+                                    href="https://creativecommons.org/licenses/by-nc-nd/4.0/"
+                                    >BY-NC-SA</a
+                                >
+                                许可协议。转载请注明出处！
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+        <div class="article-tags" v-if="articleDetails.tagVos">
+                    <span>
+                        <font-awesome-icon :icon="['fas', 'tags']" />
+                        标签：
+                    </span>
+                    <router-link
+                        :to="'/tag/' + tag.id"
+                        v-for="tag in articleDetails.tagVos"
+                        :key="tag.id"
+                        >{{ tag.name }}</router-link>
+        </div>
             </div>
         </div>
 
+    
         <!-- 回到顶部 -->
         <vinland-back-to-top />
 
@@ -59,13 +105,14 @@ import VinlandAdminCard from '../components/VinlandAdminCard.vue';
 import VinlandHotArticleCard from '../components/VinlandHotArticleCard.vue';
 import VinlandBackToTop from '../components/VinlandBackToTop.vue';
 import VinlandCatalogCard from '../components/VinlandCatalogCard.vue';
-import { getArticleDetails } from "../api/articleInfo";
+import { getArticleDetails,updateViewCount } from "../api/articleInfo";
 import { reactive, nextTick, ref } from "vue";
 import VMdEditor from '../utils/MyMDEditor';
 import { xss } from '@kangc/v-md-editor';
 // import { buildHljsLineNumber } from "../utils/hljs";
 // import buildCopyButton from "../utils/copyButton";
 import buildCodeBlock from "../utils/code-block";
+import { mapState } from "../store/map";
 
 export default{
     components:{
@@ -84,6 +131,10 @@ export default{
 
         let articleDetails = reactive({});
 
+        let { adminInfo } = mapState("adminAbout");
+
+        let articleUrl = ref(window.location.href);
+
         getArticleDetails(props.id).then((data) => {
             Object.assign(articleDetails, data);
             const html = xss.process(VMdEditor.vMdParser.themeConfig.markdownParser.render(data.content));
@@ -98,7 +149,11 @@ export default{
             })
             })
 
-        return { articleDetails, articleLoaded};
+            updateViewCount(parseInt(props.id))
+
+            console.log(articleDetails)
+
+        return { articleDetails, articleLoaded, adminInfo, articleUrl};
     },
      props: ["id"],
 }
@@ -277,6 +332,73 @@ export default{
                     monospace !important;
                 line-height: 21px;
             }
+        }
+    }
+
+    .article-signature {
+        border: 1px solid #ddd;
+        position: relative;
+        overflow: hidden;
+        margin: 30px 5px 10px 5px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        transition: all 0.4s;
+        &:hover {
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        .avatar {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 6px;
+            img {
+                width: 80px;
+                height: 80px;
+            }
+        }
+        .copyright {
+            padding-left: 20px;
+            .copyright-item {
+                display: -webkit-box;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+                line-height: 28px;
+                font-size: 15px;
+                color: #4c4948;
+                a {
+                    /* text-decoration: none; */
+                    color: #99a9bf;
+                    transition: all 0.4s;
+                    cursor: pointer;
+                    &:hover {
+                        color: #19b1f5;
+                    }
+                }
+                .copyright-title {
+                    font-weight: bold;
+                    color: #19b1f5;
+                }
+            }
+        }
+    }
+    .article-tags {
+        padding-left: 3px;
+        margin-top: 20px;
+        color: #4c4948;
+        font-size: 15px;
+        a {
+            border-radius: 4px;
+            font-size: 13px;
+            padding: 3px 12px;
+            text-decoration: none;
+            transition: all 0.4s;
+            background: #49b1f5;
+            margin-right: 8px;
+            color: white;
         }
     }
 }
