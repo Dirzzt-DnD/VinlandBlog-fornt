@@ -2,7 +2,7 @@
     <el-card class="box-card">
         <template #header>
             <div class="card-header">
-                <h2>>🗡 VINLAND BLOG 👑</h2>
+                <h2>🗡 VINLAND BLOG 👑</h2>
             </div>
         </template>
 
@@ -35,6 +35,8 @@ export default {
     height: 35px;
 }
 .card-header h2 {
+    align-items: center;
+    text-align: center;
     font-family: "Kanit";
 }
 .el-card__header {

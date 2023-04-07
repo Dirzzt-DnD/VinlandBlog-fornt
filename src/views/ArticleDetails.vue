@@ -43,9 +43,7 @@
 
 
             <div class="article-signature">
-                <div class="avatar">
-                    <img :src="adminInfo.avatar" alt="头像">
-                </div>
+                <img :src="adminInfo.avatar" alt="头像">
                 <div class="copyright">
                     <div class="copyright-item">
                         <span class="copyright-title">文章作者：</span>
@@ -74,7 +72,7 @@
                     </div>
                 </div>
 
-        <div class="article-tags" v-if="articleDetails.tagVos">
+                <div class="article-tags" v-if="articleDetails.tagVos">
                     <span>
                         <font-awesome-icon :icon="['fas', 'tags']" />
                         标签：
@@ -84,8 +82,34 @@
                         v-for="tag in articleDetails.tagVos"
                         :key="tag.id"
                         >{{ tag.name }}</router-link>
-        </div>
+                </div>
+
+                <div class="previous-next-article">
+                    <div class="previous-article" v-if="previousArticle.id" :style="{width: nextArticle.id?'50%':'100%'}">
+                        <router-link :to="`/article/${previousArticle.id}`">
+                            <img :src="previousArticle.thumbnail" alt="缩略图" @error.once="useDefaultThumbnail"/>
+                            <div class="previous-article-info">
+                                <div class="label">« 上一篇</div>
+                                <div class="title">
+                                    {{ previousArticle.title }}
+                                </div>
+                            </div>
+                        </router-link>
+                    </div>
+                    <div class="next-article" v-if="nextArticle.id" :style="{ width: previousArticle.id ? '50%' : '100%' }">
+                        <router-link :to="`/article/${nextArticle.id}`">
+                            <img :src="nextArticle.thumbnail" alt="缩略图" @error.once="useDefaultThumbnail"/>
+                            <div class="next-article-info">
+                                <div class="label">下一篇 »</div>
+                                <div class="title">
+                                    {{ nextArticle.title }}
+                                </div>
+                            </div>
+                        </router-link>
+                    </div>
+                </div>
             </div>
+
         </div>
 
     
@@ -105,7 +129,7 @@ import VinlandAdminCard from '../components/VinlandAdminCard.vue';
 import VinlandHotArticleCard from '../components/VinlandHotArticleCard.vue';
 import VinlandBackToTop from '../components/VinlandBackToTop.vue';
 import VinlandCatalogCard from '../components/VinlandCatalogCard.vue';
-import { getArticleDetails,updateViewCount } from "../api/articleInfo";
+import { getPreviousNextArticle, getArticleDetails, updateViewCount } from "../api/articleInfo";
 import { reactive, nextTick, ref } from "vue";
 import VMdEditor from '../utils/MyMDEditor';
 import { xss } from '@kangc/v-md-editor';
@@ -113,6 +137,7 @@ import { xss } from '@kangc/v-md-editor';
 // import buildCopyButton from "../utils/copyButton";
 import buildCodeBlock from "../utils/code-block";
 import { mapState } from "../store/map";
+import { useDefaultThumbnail, defaultThumbnail } from '../utils/thumbnail';
 
 export default{
     components:{
@@ -133,7 +158,11 @@ export default{
 
         let { adminInfo } = mapState("adminAbout");
 
+
         let articleUrl = ref(window.location.href);
+
+        let previousArticle = reactive({});
+        let nextArticle = reactive({});
 
         getArticleDetails(props.id).then((data) => {
             Object.assign(articleDetails, data);
@@ -147,13 +176,25 @@ export default{
                 buildCodeBlock(".article-content");
                 articleLoaded.value = true;
             })
-            })
+        })
 
-            updateViewCount(parseInt(props.id))
+        updateViewCount(props.id)
+        getPreviousNextArticle(props.id).then((data) => {
+        if (data.previous) {
+            Object.assign(previousArticle, data.previous);
+            if (!previousArticle.thumbnail) {
+                previousArticle.thumbnail = defaultThumbnail;
+            }
+        }
+        if (data.next) {
+            Object.assign(nextArticle, data.next);
+            if (!nextArticle.thumbnail) {
+                nextArticle.thumbnail = defaultThumbnail;
+            }
+        }
+    })
 
-            console.log(articleDetails)
-
-        return { articleDetails, articleLoaded, adminInfo, articleUrl};
+        return { articleDetails, articleLoaded, adminInfo, articleUrl,useDefaultThumbnail,previousArticle,nextArticle,};
     },
      props: ["id"],
 }
@@ -349,13 +390,18 @@ export default{
             box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
             transform: translateY(-2px);
         }
-        .avatar {
+
+        img {
+            margin: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
             padding: 6px;
-            img {
-                width: 80px;
-                height: 80px;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            transition: all 0.6s;
+            &:hover {
+                transform: rotate(-360deg);
             }
         }
         .copyright {
@@ -399,6 +445,71 @@ export default{
             background: #49b1f5;
             margin-right: 8px;
             color: white;
+        }
+    }
+
+    .previous-next-article{
+        width: 100%;
+        margin-top: 50px;
+        overflow: hidden;
+        background: black;
+        display: flex;
+        border-radius: 9px;
+
+        .previous-article,
+        .next-article{
+            width: 50%;
+            a {
+                height: 150px;
+                overflow: hidden;
+                display: block;
+                position: relative;
+
+                img {
+                    height: 100%;
+                    width: 100%;
+                    position: absolute;
+                    object-fit: cover;
+                    opacity: 0.5;
+                    transition: all 0.6s ease-in-out;
+                    &:hover {
+                        transform: scale(1.1);
+                        opacity: 0.8;
+                    }
+                }
+
+                .previous-article-info,
+                .next-article-info{
+                    pointer-events: none;
+                    position: absolute;
+                    top: 50%;
+                    width: 100%;
+                    padding: 20px 40px;
+                    transform: translate(0, -50%);
+                    color: white;
+                    line-height: 28px;
+                    box-sizing: border-box;
+
+                    .label {
+                        font-size: 13px;
+                    }
+
+                    .title {
+                        font-weight: 500;
+                        font-size: 14px;
+                        display: -webkit-box;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        -webkit-line-clamp: 1;
+                        -webkit-box-orient: vertical;
+                    }
+
+                    .next-article-info {
+                    text-align: right;
+                    }
+                }
+                
+            }
         }
     }
 }

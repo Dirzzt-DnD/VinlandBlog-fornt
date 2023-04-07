@@ -41,3 +41,7 @@ export function updateViewCount(id){
         'method':'put'
     })
 }
+
+export function getPreviousNextArticle(id){
+    return http.get("/article/previousNextArticle/"+id)
+}

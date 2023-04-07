@@ -9,6 +9,15 @@
                 {{item.name}}
                 </router-link>
             </div>
+
+            <div v-if="$store.state.adminAbout.isAdmin">
+                <router-link to="/article/edit" class="header-menu-item">
+                    <font-awesome-icon
+                        :icon="['fas', 'pen']"
+                        class="header-icon"
+                    />新随笔
+                </router-link>
+            </div>
         </div>
 
         <div id="header-menu-button" @click="drawer = !drawer">
@@ -23,6 +32,7 @@
 <script>
 import VinlandAdminMenu from "./VinlandAdminMenu.vue"
 import { reactive, ref } from "@vue/reactivity";
+import { getUserInfo } from "../utils/storage";
 export default{
     name:"VinlandHeader",
     components: {
@@ -35,6 +45,8 @@ export default{
             { name: "分类", icon: ["fas", "folder"], href: "/" },
             { name: "标签", icon: ["fas", "tags"], href: "/" },
         ])
+
+        console.log(getUserInfo())
 
         let drawer = ref(false)
 

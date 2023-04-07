@@ -2,7 +2,7 @@
     <div class="admin-menu">
         <vinland-admin-card></vinland-admin-card>
         <vinland-divider/>
-        <el-menu default-active="2" class="el-menu-vertical" @open="handleOpen" @close="handleClose">
+        <el-menu default-active="2" class="el-menu-vertical">
             <el-menu-item index="1">
                 <font-awesome-icon :icon="['fab','fort-awesome']" class="menu-icon"></font-awesome-icon>
                 <span>首页</span>
@@ -49,6 +49,11 @@
                     <span class="tag-count">{{ tag.count }}</span>
                 </el-menu-item>
             </el-sub-menu>
+
+            <el-menu-item index="5" v-if="$store.state.adminAbout.isAdmin">
+                <font-awesome-icon :icon="['fas', 'pen']" class="menu-icon" />
+                <span>新随笔</span>
+            </el-menu-item>
         </el-menu>
     </div>
 </template>

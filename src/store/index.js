@@ -3,6 +3,7 @@ import { getAdminInfo } from '../api/login'
 import { getArticleCount } from '../api/articleInfo'
 import { getCategoryCountList } from '../api/categoryInfo'
 import { getTagCountList } from '../api/tagInfo'
+import { getUserInfo } from "../utils/storage"
 
 
 let adminAbout = {
@@ -19,9 +20,9 @@ let adminAbout = {
             article: 0,
             category: 0,
             tag: 0
-        }
+        },
+        isAdmin: getUserInfo()? getUserInfo().isAdmin : false
     },
-
     actions: {
         getAdminInfo(context){
             return new Promise((resolve) => {

@@ -80,8 +80,9 @@ export default{
                 }
                 loginApi(ruleForm.userName,md5Encryption(ruleForm.password)).then(
                     (data)=>{
+                        console.log(data)
                         setToken(data.token)
-                        setUserInfo(data.setUserInfo)
+                        setUserInfo(data.userInfo)
                         router.push("/")
                     }
                 )
