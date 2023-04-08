@@ -17,9 +17,7 @@
             @click="scrollToView(title.scrollTop)" 
             :class="['catalog-item',currentTitle.id == title.id ? 'active' : 'not-active',]" 
             :style="{ marginLeft: title.level * 20 + 'px' }"
-            v-show="
-                    title.parentId ? titleTree[title.parentId][title.id] : true
-                "
+            v-show="title.isVisible"
             :title="title.rawName"
             >
             {{ title.name }}
@@ -36,35 +34,35 @@ export default{
     components:{
         VinlandCard,
     },
-    setup() {
-        let { titles, titleMap, titleTree } = getTitles();
-        titles = reactive(titles);
-        titleTree = reactive(titleTree);
+    setup(props) {
+        let titles = reactive(getTitles());
         let currentTitle = reactive({});
         let progress = ref(0);
 
         // 获取目录的标题
         function getTitles() {
+            
             let titles = [];
-            let titleTree = {};
             let levels = ["h1", "h2", "h3"];
-            let articleElement = document.querySelector(
-                ".post-body .article-content"
-            );
+            let articleElement = document.querySelector(props.container);
+
             if (!articleElement) {
-                return { titles, titleTree };
+                return titles;
             }
+            
             let elements = Array.from(articleElement.querySelectorAll("*"));
             // 调整标签等级
             let tagNames = new Set(
                 elements.map((el) => el.tagName.toLowerCase())
             );
+            
             for (let i = levels.length - 1; i >= 0; i--) {
                 if (!tagNames.has(levels[i])) {
                     levels.splice(i, 1);
                 }
             }
-            let lastNode;
+
+            //最大为几级
             let serialNumbers = levels.map(() => 0);
             for (let i = 0; i < elements.length; i++) {
                 const element = elements[i];
@@ -72,50 +70,50 @@ export default{
                 let level = levels.indexOf(tagName);
                 if (level == -1) continue;
                 let id = tagName + "-" + element.innerText + "-" + i;
-                if (!lastNode) {
-                    lastNode = {
-                        parentId: null,
-                        id: id,
-                        level: level,
-                    };
-                    titleTree[id] = {};
-                } else {
-                    // 遇到子标题
-                    if (lastNode.level < level) {
-                        titleTree[lastNode.id][id] = false;
-                        lastNode.parentId = lastNode.id;
-                    }
-                    // 遇到上一级标题
-                    else if (lastNode.level > level) {
-                        titleTree[id] = {};
-                        lastNode.parentId = null;
-                        serialNumbers.fill(0, level + 1);
-                    }
-                    // 遇到平级
-                    else {
-                        if (lastNode.parentId) {
-                            titleTree[lastNode.parentId][id] = false;
-                        } else {
-                            titleTree[id] = {};
-                            lastNode.parentId = null;
-                        }
-                    }
-                    lastNode.id = id;
-                    lastNode.level = level;
-                }
-                serialNumbers[level] += 1;
-                let serialNumber = serialNumbers.slice(0, level + 1).join(".");
-                titles.push({
-                    id: id,
-                    parentId: lastNode.parentId,
-                    name: serialNumber + ". " + element.innerText,
+                let node = {
+                    id,
+                    level,
+                    parent:null,
+                    children:[],
                     rawName: element.innerText,
                     scrollTop: element.offsetTop,
-                    level: level,
-                });
+                }
+
+                if(titles.length > 0){
+                    let lastNode = titles.at(-1)
+                    
+                    //子标题
+                    if(lastNode.level< node.level){
+                        node.parent = lastNode;
+                        lastNode.children.push(node)
+                        
+                    }else if(lastNode.level > node.level){ // 上一级标题
+                        //除了h1等级标题以外都变为0[2.1.1]=>[2.0.0]
+                        serialNumbers.fill(0, level+1)
+                        let parent = lastNode.parent
+                        while(parent){
+                            if(parent.level < node.level){ //再小于上一级标题的话
+                                parent.children.push(node)
+                                node.parent = parent
+                                break
+                            }
+                            parent = parent.parent
+                        }
+                    }else if(lastNode.parent){ //遇到平级的话
+                        node.parent = lastNode.parent
+                        lastNode.parent.children.push(node)
+                    }
+                }
+
+                serialNumbers[level] += 1;
+                let serialNumber = serialNumbers.slice(0, level + 1).join(".");
+                node.isVisible = node.parent == null;
+                node.name = serialNumber + ". " + element.innerText;
+                titles.push(node);
+
             }
-            let titleMap = Object.fromEntries(titles.map((i) => [i.id, i]));
-            return { titles, titleMap, titleTree };
+            console.log(titles)
+            return titles;
         }
         // 监听滚动事件并更新样式
         window.addEventListener("scroll", function () {
@@ -124,46 +122,56 @@ export default{
                     (window.scrollY / document.documentElement.scrollHeight) *
                         100
                 ) + "%";
-            let visibleTitleIds = [];
+            let visibleTitles = [];
             for (let i = titles.length - 1; i >= 0; i--) {
                 const title = titles[i];
                 if (title.scrollTop <= window.scrollY) {
+                    
                     if (currentTitle.id === title.id) return;
                     Object.assign(currentTitle, title);
+                    
                     // 展开节点
-                    setChildrenVisible(title.id, true);
-                    visibleTitleIds.push(title.id);
+                    setChildrenVisible(title, true);
+                    visibleTitles.push(title);
+                    
                     // 展开父节点
-                    let parentId = currentTitle.parentId;
-                    while (parentId) {
-                        setChildrenVisible(parentId, true);
-                        visibleTitleIds.push(parentId);
-                        parentId = titleMap[parentId].parentId;
+                    let parent = title.parent;
+                    while (parent) {
+                        setChildrenVisible(parent, true);
+                        visibleTitles.push(parent);
+                        parent = parent.parent
                     }
                     // 折叠其余节点
-                    for (const pid in titleTree) {
-                        if (!visibleTitleIds.includes(pid)) {
-                            setChildrenVisible(pid, false);
+                    for (const t of titles) {
+                        if (!visibleTitles.includes(t)) {
+                            setChildrenVisible(t, false);
                         }
                     }
+
                     return;
                 }
             }
         });
         // 设置子节点的可见性
-        function setChildrenVisible(id, isVisible) {
-            let children = titleTree[id];
-            for (const cid in children) {
-                children[cid] = isVisible;
+        function setChildrenVisible(title, isVisible) {
+            for (const child of title.children) {
+                child.isVisible = isVisible;
             }
         }
         // 滚动到指定的位置
         function scrollToView(scrollTop) {
             window.scrollTo({ top: scrollTop, behavior: "smooth" });
         }
-        return { titles, titleTree, currentTitle, progress, scrollToView };
+        return { titles, currentTitle, progress, scrollToView };
     },
-};
+
+    props: {
+        container: {
+            type: String,
+            default: ".post-body .article-content",
+        },
+    }
+}
 </script>
 <style lang="less" scoped>
 .catalog-card {
