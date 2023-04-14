@@ -5,7 +5,6 @@ export function loginApi(userName, password){
     'url': '/login',
     'method': 'post',
     data: { userName, password },
-    needAuthentication: false
     })
 }
 
@@ -13,7 +12,7 @@ export function logout(){
     return http({
         'url' : '/logout',
         'method' : 'post',
-        needAuthentication:false
+        needAuthentication: true
     })
 }
 

@@ -28,7 +28,7 @@ export default{
 }
 </script>
 
-<style>
+<style scoped>
 .category-item {
     display: flex;
     justify-content: space-between;
@@ -40,7 +40,7 @@ export default{
     border-radius: 4px;
 }
 .category-item:hover {
-    background-color: #1892ff;
+    background-color: var(--theme-color);;
     color: white;
     padding: 10px 17px;
 }

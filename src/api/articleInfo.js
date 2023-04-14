@@ -45,3 +45,12 @@ export function updateViewCount(id){
 export function getPreviousNextArticle(id){
     return http.get("/article/previousNextArticle/"+id)
 }
+
+export function addArticle(article) {
+    return http({
+        'url': "/article",
+        'method': "post",
+        'data': article,
+        'needAuthentication': true
+    })
+}

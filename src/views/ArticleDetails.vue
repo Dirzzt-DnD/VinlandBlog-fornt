@@ -38,7 +38,6 @@
                 <div
                     class="article-content"
                     v-html="articleDetails.content"
-                    v-highlight
                 ></div>
 
 
@@ -111,10 +110,10 @@
             </div>
 
         </div>
-
-    
         <!-- 回到顶部 -->
         <vinland-back-to-top />
+
+        <vinland-light-box ref="lightBoxRef" v-if="articleLoaded"/>
 
         <!-- 页脚 -->
         <vinland-footer />
@@ -138,6 +137,9 @@ import { xss } from '@kangc/v-md-editor';
 import buildCodeBlock from "../utils/code-block";
 import { mapState } from "../store/map";
 import { useDefaultThumbnail, defaultThumbnail } from '../utils/thumbnail';
+import VinlandLightBox from '../components/VinlandLightBox.vue';
+import markdownIt from "../utils/markdown-it";
+import MathQueue from "../utils/mathjax"
 
 export default{
     components:{
@@ -148,6 +150,7 @@ export default{
         VinlandHotArticleCard,
         VinlandWifeCover,
         VinlandCatalogCard,
+        VinlandLightBox,
     },
     setup(props){
         window.scrollTo({ top: 0 });
@@ -163,18 +166,22 @@ export default{
 
         let previousArticle = reactive({});
         let nextArticle = reactive({});
+         let lightBoxRef = ref();
 
         getArticleDetails(props.id).then((data) => {
             Object.assign(articleDetails, data);
-            const html = xss.process(VMdEditor.vMdParser.themeConfig.markdownParser.render(data.content));
+            const html = markdownIt.render(data.content);
             articleDetails.content = html
 
             nextTick(() => {
                 //调用querySelector更方便将html元素调用进去而不是直接传class名称
                 // buildHljsLineNumber();
                 // buildCopyButton();
+                MathQueue("article-content");
                 buildCodeBlock(".article-content");
                 articleLoaded.value = true;
+            }).then(()=>{
+                lightBoxRef.value.addImageClickedListener();
             })
         })
 
@@ -194,7 +201,14 @@ export default{
         }
     })
 
-        return { articleDetails, articleLoaded, adminInfo, articleUrl,useDefaultThumbnail,previousArticle,nextArticle,};
+        return { articleDetails,
+                articleLoaded,
+                adminInfo,
+               articleUrl,
+               useDefaultThumbnail,
+               previousArticle,
+               nextArticle,
+               lightBoxRef};
     },
      props: ["id"],
 }
@@ -263,13 +277,18 @@ export default{
     width: 74%;
     background: white;
     border-radius: 8px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--card-box-shadow);
     padding: 30px 40px;
     box-sizing: border-box;
     :deep(.article-content) {
         img {
-            max-width: 100%;
-            margin: 0 auto 20px;
+            display: block;
+            margin: 15px auto 15px;
+            border-radius: 6px;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 1px 15px rgba(27, 31, 35, 0.15),
+                0 0 1px rgba(106, 115, 125, 0.35);
         }
         h1 code,
         h2 code,
@@ -294,6 +313,7 @@ export default{
         p {
             color: #4c4948;
             font-size: 15px;
+            line-height: 28px;
         }
         h1,
         h2,
@@ -313,49 +333,16 @@ export default{
         h5,
         h6 {
             font-size: 16px;
-            padding-left: 30px;
-            &:hover {
-                padding-left: 40px;
-            }
-            &::before {
-                margin-left: -34px;
-                content: "🗡";
-            }
         }
         h1 {
-            font-size: 25px;
-            padding-left: 19px;
-            &:hover {
-                padding-left: 36px;
-            }
-            &::before {
-                margin-left: -24px;
-                content: "\1F4AB";
-                margin-right: 2px;
-            }
+           font-size: 24px;
+           margin: 10px 0;
         }
         h2 {
-            padding-left: 19px;
-            font-size: 22px;
-            &:hover {
-                padding-left: 36px;
-            }
-            &::before {
-                margin-left: -24px;
-                content: "👑";
-                margin-right: 2px;
-            }
+            font-size: 20px;
         }
         h3 {
-            padding-left: 30px;
             font-size: 17px;
-            &:hover {
-                padding-left: 40px;
-            }
-            &::before {
-                margin-left: -34px;
-                content: "⛏️";
-            }
         }
         /* 代码样式 */
         pre {

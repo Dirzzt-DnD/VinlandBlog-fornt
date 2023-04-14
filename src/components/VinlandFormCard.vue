@@ -38,6 +38,7 @@ export default {
     align-items: center;
     text-align: center;
     font-family: "Kanit";
+    margin-top: 3px;
 }
 .el-card__header {
     padding-top: 0px;

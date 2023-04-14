@@ -11,7 +11,7 @@
             </div>
 
             <div v-if="$store.state.adminAbout.isAdmin">
-                <router-link to="/article/edit" class="header-menu-item">
+                <router-link to="/article/add" class="header-menu-item">
                     <font-awesome-icon
                         :icon="['fas', 'pen']"
                         class="header-icon"
@@ -24,7 +24,7 @@
             <font-awesome-icon :icon="['fes','bars']"/>
         </div>
 
-        <el-drawer v-model="drawer" direction="ltr" :show-close="false" :size="350">
+        <el-drawer v-model="drawer" direction="ltr" :show-close="false" :with-header="false" :size="350">
             <vinland-admin-menu></vinland-admin-menu>
         </el-drawer>
     </header>
@@ -32,7 +32,6 @@
 <script>
 import VinlandAdminMenu from "./VinlandAdminMenu.vue"
 import { reactive, ref } from "@vue/reactivity";
-import { getUserInfo } from "../utils/storage";
 export default{
     name:"VinlandHeader",
     components: {
@@ -45,8 +44,6 @@ export default{
             { name: "分类", icon: ["fas", "folder"], href: "/" },
             { name: "标签", icon: ["fas", "tags"], href: "/" },
         ])
-
-        console.log(getUserInfo())
 
         let drawer = ref(false)
 
@@ -145,7 +142,7 @@ header{
     color: var(--text-hover-color);
 }
 
-.el-drawer__body {
+:deep(.el-drawer__body) {
     padding: 0;
 }
 

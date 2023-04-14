@@ -8,6 +8,9 @@ import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 import Prism from 'prismjs';
 import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index';
 import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
+import createTodoListPlugin from '@kangc/v-md-editor/lib/plugins/todo-list/index';
+import '@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css';
+
 
 
 VMdEditor.use(vuepressTheme, {
@@ -17,6 +20,9 @@ VMdEditor.use(vuepressTheme, {
       // md.set(option).use(plugin);
     },
   });
+
   VMdEditor.use(createEmojiPlugin())
   VMdEditor.use(createCopyCodePlugin());
+  VMdEditor.use(createTodoListPlugin())
+
   export default VMdEditor

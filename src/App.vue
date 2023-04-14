@@ -16,6 +16,9 @@ export default{
 </script>
 
 <style>
+@import url(https://fonts.googleapis.com/css?family=Kanit:900);
+@import url(https://fonts.googleapis.com/css?family=Long+Cang&display=swap);
+
 ::-webkit-scrollbar{
   height: 14px;
   width: 4px;
@@ -37,6 +40,7 @@ body{
 
 :root {
     --theme-color: #1892ff;
+    --card-box-shadow: 0 3px 8px 6px rgba(7, 17, 27, 0.05);
 }
 
 </style>

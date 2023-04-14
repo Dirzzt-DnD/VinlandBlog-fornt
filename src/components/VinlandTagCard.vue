@@ -24,7 +24,8 @@ export default{
     }
 }
 </script>
-<style>
+<style scoped>
+
 .tag-clouds{
     font-size: 14;
     box-sizing: border-box;

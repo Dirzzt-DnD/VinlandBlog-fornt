@@ -85,6 +85,8 @@ export default{
 
 .el-menu{
     padding: 0 10px;
+    margin-top: 10px;
+    border-right: none;
 }
 
 .menu-icon{
@@ -110,6 +112,10 @@ export default{
     overflow: hidden;
     text-overflow: ellipsis;
     padding-left: 3px;
+}
+
+a {
+    display: block;
 }
 
 </style>

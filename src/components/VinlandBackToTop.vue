@@ -35,7 +35,7 @@
     border-radius: 50%;
     bottom: 20px;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
-    color: #1892ff;
+    color: var(--theme-color);
     cursor: pointer;
     display: block;
     height: 50px;
@@ -52,7 +52,7 @@
 }
 
 #back-to-top:hover{
-    background-color: #1892ff;
+    background-color: var(--theme-color);
     color: white;
     transition: all 0.2 ease;
 }

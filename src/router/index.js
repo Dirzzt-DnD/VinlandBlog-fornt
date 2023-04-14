@@ -6,7 +6,8 @@ import ArticleDetails from '../views/ArticleDetails.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import HomeView from '../views/HomeView.vue'
-
+import Edit from "../views/Edit.vue"
+import { getUserInfo } from "../utils/storage"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,33 +18,41 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      meta: {
-        title: '首页'
-      }
     },
     {
       path: '/uploadArticle',
       name: 'uploadArticle',
       component: UploadArticleView,
+    },
+
+    {
+      path: "/article/:id/edit",
+      name: "ArticleEdit",
+      component: Edit,
+      props: true,
       meta: {
-        title: '上传文章'
+          needAuthentication: true
       }
     },
+
+    {
+      path: "/article/add",
+      name: "ArticleAdd",
+      component: Edit,
+      meta:{
+        needAuthentication: true
+      }
+    },
+
     {
       path: '/articleInfo',
       name: 'articleInfo',
       component: ArticleInfoTableView,
-      meta: {
-        title: '文章信息'
-      }
     },
     {
       path: '/login',
       name: 'login',
       component: Login,
-      meta: {
-        title: '登录'
-      }
     },
 
     {
@@ -66,7 +75,29 @@ const router = createRouter({
       component: ArticleDetails,
       props: true
     },
+    {
+      path: "/article/:id/edit",
+      name: "ArticleEdit",
+      component: Edit,
+      props: true,
+      meta: {
+          needAuthentication: true
+      }
+    },
   ]
+})
+
+router.beforeEach((to,from,next)=>{
+  if (to.meta.needAuthentication) {
+    let isAdmin = getUserInfo() ? getUserInfo().isAdmin : false;
+    if (isAdmin) {
+        next()
+    } else {
+        next({ name: "Login" })
+    }
+    } else {
+        next()
+    }
 })
 
 export default router

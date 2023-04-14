@@ -38,7 +38,7 @@ export default{
                 if(article.createTime){
                     article.createTime = article.createTime.split(" ")[0];
                 }
-                article.thumbnail = article.thumbnail || useDefaultThumbnailCover;
+                article.thumbnail = article.thumbnail || useDefaultThumbnail;
             });
             hotArticleList.push(...data);
         });
@@ -92,6 +92,10 @@ export default{
     -webkit-box-orient: vertical;
     line-height: 1.5;
     -webkit-line-clamp: 2;
+}
+
+.hot-article-title:hover {
+    color: var(--theme-color);
 }
 
 .hot-article-meta-data {

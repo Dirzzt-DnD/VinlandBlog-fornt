@@ -47,7 +47,7 @@ import {reactive} from "vue"
 .card {
     background: white;
     border-radius: 8px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--card-box-shadow);
     padding: 20px 24px;
     width: 100%;
     margin-top: 30px;

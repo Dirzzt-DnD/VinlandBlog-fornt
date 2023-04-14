@@ -119,7 +119,7 @@ import VinlandArchiveCard from "../components/VinlandArchiveCard.vue";
     justify-content: center;
 }
 :deep(#pagination > button) {
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--card-box-shadow);
     background: white;
     border-radius: 8px;
     height: 35px;
@@ -127,7 +127,7 @@ import VinlandArchiveCard from "../components/VinlandArchiveCard.vue";
 }
 
 :deep(#pagination li) {
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--card-box-shadow);
     /*FIXME ?*/ 
     background-color: white;
     border-radius: 8px;
@@ -137,7 +137,7 @@ import VinlandArchiveCard from "../components/VinlandArchiveCard.vue";
 }
 :deep(#pagination li.active) {
     color: white;
-    background: #1892ff;
+    background: var(--theme-color);
     font-weight: normal;
 }
 
