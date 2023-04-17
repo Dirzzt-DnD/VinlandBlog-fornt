@@ -20,14 +20,17 @@ service.interceptors.response.use(response => {
 })
 
 
-export function uploadImage(file){
+export function uploadImage(file, progress){
     let formData = new FormData()
     formData.append("file",file)
-    console.log(formData)
     return service({
         'url': "/upload",
         'method': "post",
         'headers': {'Content-Type': 'multipart/form-data'},
         'data': formData,
+        onUploadProgress(event){
+            let v = Math.round(event.loaded / event.total * 100)
+            progress.value == 100? 80 : v
+        }
     })
 }

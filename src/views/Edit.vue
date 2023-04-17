@@ -51,15 +51,10 @@
                 </el-form-item>
 
                 <el-form-item prop="thumbnail" label="缩略图">
-                    <el-upload class="upload-demo" drag action="" :limit="1" 
-                    :http-request="uploadThumbnail" :before-upload="beforeUploadThumbnail" :before-remove="beforeRemoveThumbnail">
-                    <el-icon class="el-icon--upload"
-                            ><upload-filled
-                        /></el-icon>
-                        <div class="el-upload__text">
-                            拖拽文件或 <em>点击上传</em>
-                        </div>
-                    </el-upload>
+                    <vinland-uploader 
+                    @uploaded="handleThumbnailUploaded" 
+                    @aboutToUpload="handleAboutToUploadThumbnail"
+                    @remove = "handleRemoveThumbnail"/>
                 </el-form-item>
 
                 <el-form-item>
@@ -92,6 +87,7 @@
 import VinlandFooter from '../components/VinlandFooter.vue'
 import VinlandWifeCover from '../components/VinlandWifeCover.vue'
 import VinlandHeader from '../components/VinlandHeader.vue'
+import VinlandUploader from '../components/VinlandUploader.vue'
 import {ref, reactive, computed, nextTick} from 'vue'
 import { uploadImage } from "../api/image";
 import { mapState } from "../store/map";
@@ -105,6 +101,7 @@ export default{
         VinlandFooter,
         VinlandHeader,
         VinlandWifeCover,
+        VinlandUploader,
     },
 
     setup() {
@@ -156,14 +153,13 @@ export default{
                 },
             ],
         });
-        
-        function beforeUploadThumbnail(file) {
-            console.log("上传图片中");
+
+        function handleAboutToUploadThumbnail() {
             document.getElementById("submit-button").disabled = true;
             document.getElementById("draft-button").disabled = true;
         }
         
-        function beforeRemoveThumbnail(file, fileList) {
+        function handleRemoveThumbnail(file, fileList) {
             ruleForm.thumbnail = "";
         }
 
@@ -214,13 +210,19 @@ export default{
             ruleForm.summary = html.replace(/<[^>]+>/g, "").slice(0, 150);
         }
 
-        function uploadThumbnail(param) {
-            uploadImage(param.file).then((data) => {
-                ruleForm.thumbnail = data;
-                console.log("上传完成");
-                document.getElementById("submit-button").disabled = false;
-                document.getElementById("draft-button").disabled = false;
-            });
+        // function uploadThumbnail(param) {
+        //     uploadImage(param.file).then((data) => {
+        //         ruleForm.thumbnail = data;
+        //         console.log("上传完成");
+        //         document.getElementById("submit-button").disabled = false;
+        //         document.getElementById("draft-button").disabled = false;
+        //     });
+        // }
+
+        function handleThumbnailUploaded(url){
+            ruleForm.thumbnail = url
+            document.getElementById("submit-button").disabled = false;
+            document.getElementById("draft-button").disabled = false;
         }
 
         function handeleUploadImage(event, insertImage, files){
@@ -244,10 +246,10 @@ export default{
             rules,
             categories,
             tags,
-            uploadThumbnail,
-            beforeRemoveThumbnail,
+            handleThumbnailUploaded,
+            handleAboutToUploadThumbnail,
+            handleRemoveThumbnail,
             handeleUploadImage,
-            beforeUploadThumbnail,
             submitDraft,
             submitArticle,
         };
