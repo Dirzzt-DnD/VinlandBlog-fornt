@@ -3,7 +3,16 @@
         <vinland-header/>
         <vinland-wife-cover>
             <div class="article-info">
-            <h1 class="article-title">{{articleDetails.title}}</h1>
+            <h1 class="article-title">
+                {{articleDetails.title}}
+                <font-awesome-icon
+                        :icon="['fas', 'pen']"
+                        class="edit-icon"
+                        title="编辑"
+                        v-if="isAdmin"
+                        @click="editArticle"
+                    />
+            </h1>
                 <div class="article-meta-data-wrap">
                     <span class="article-meta-data">
                         <font-awesome-icon :icon="['fas', 'calendar-days']" />
@@ -130,8 +139,6 @@ import VinlandBackToTop from '../components/VinlandBackToTop.vue';
 import VinlandCatalogCard from '../components/VinlandCatalogCard.vue';
 import { getPreviousNextArticle, getArticleDetails, updateViewCount } from "../api/articleInfo";
 import { reactive, nextTick, ref } from "vue";
-import VMdEditor from '../utils/MyMDEditor';
-import { xss } from '@kangc/v-md-editor';
 // import { buildHljsLineNumber } from "../utils/hljs";
 // import buildCopyButton from "../utils/copyButton";
 import buildCodeBlock from "../utils/code-block";
@@ -140,6 +147,7 @@ import { useDefaultThumbnail, defaultThumbnail } from '../utils/thumbnail';
 import VinlandLightBox from '../components/VinlandLightBox.vue';
 import markdownIt from "../utils/markdown-it";
 import MathQueue from "../utils/mathjax"
+import router from '../router';
 
 export default{
     components:{
@@ -159,7 +167,7 @@ export default{
 
         let articleDetails = reactive({});
 
-        let { adminInfo } = mapState("adminAbout");
+        let { adminInfo, isAdmin } = mapState("adminAbout");
 
 
         let articleUrl = ref(window.location.href);
@@ -199,16 +207,24 @@ export default{
                 nextArticle.thumbnail = defaultThumbnail;
             }
         }
-    })
+        })
 
-        return { articleDetails,
+        function editArticle(){
+            router.push(`/article/${props.id}/edit`)
+        }
+
+        return {
+                isAdmin,
+                articleDetails,
                 articleLoaded,
                 adminInfo,
                articleUrl,
                useDefaultThumbnail,
                previousArticle,
                nextArticle,
-               lightBoxRef};
+               lightBoxRef,
+               editArticle
+            };
     },
      props: ["id"],
 }
@@ -253,7 +269,18 @@ export default{
     text-overflow: ellipsis;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+    padding: 0 30px;
 }
+
+.edit-icon {
+    display: inline-block;
+    cursor: pointer;
+    transition: all 0.4s;
+    &:hover {
+        color: #ff7242;
+    }
+}
+
 .article-meta-data-wrap {
     display: flex;
     justify-content: center;
@@ -361,6 +388,144 @@ export default{
                 line-height: 21px;
             }
         }
+
+        kbd {
+            background-color: #f7f7f7;
+            color: #222325;
+            border-radius: 0.25rem;
+            border: 1px solid #cbcccd;
+            box-shadow: 0 2px 0 1px #cbcccd;
+            cursor: default;
+            font-family: Arial, sans-serif;
+            font-size: 0.75em;
+            line-height: 1;
+            min-width: 0.75rem;
+            padding: 2px 5px;
+            position: relative;
+            top: -1px;
+
+            &:hover {
+                box-shadow: 0 1px 0 0.5px #cbcccd;
+                top: 1px;
+            }
+        }
+
+        a {
+            color: #2d8cf0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+
+            &::after {
+                content: "";
+                display: block;
+                width: 0;
+                height: 1px;
+                position: absolute;
+                left: 0;
+                bottom: -2px;
+                background: #2d8cf0;
+                transition: all 0.3s ease-in-out;
+            }
+
+            &:hover::after {
+                width: 100%;
+            }
+        }
+
+        hr {
+            position: relative;
+            margin: 20px 0;
+            border: 2px dashed #bfe4fb;
+            width: 100%;
+            box-sizing: content-box;
+            height: 0;
+            overflow: visible;
+            box-sizing: border-box;
+        }
+
+        hr::before {
+            position: absolute;
+            top: -11px;
+            left: 2%;
+            z-index: 1;
+            color: #bfe4fb;
+            content: "✂";
+            font-size: 21px;
+            line-height: 1;
+            -webkit-transition: all 1s ease-in-out;
+            -moz-transition: all 1s ease-in-out;
+            -o-transition: all 1s ease-in-out;
+            -ms-transition: all 1s ease-in-out;
+            transition: all 1s ease-in-out;
+        }
+
+        hr:hover::before {
+            left: calc(98% - 20px);
+        }
+
+        table {
+            font-size: 15px;
+            width: 100%;
+            margin: 15px 0px;
+            display: block;
+            overflow-x: auto;
+            border: none;
+            border-collapse: collapse;
+            border-spacing: 0;
+
+            &::-webkit-scrollbar {
+                height: 4px !important;
+            }
+
+            th {
+                background: #bfe4fb;
+                border: 1px solid #a6d6f5;
+                white-space: nowrap;
+                font-weight: 400;
+                padding: 6px 15px;
+                min-width: 100px;
+            }
+
+            td {
+                border: 1px solid #a6d6f5;
+                padding: 6px 15px;
+                min-width: 100px;
+            }
+        }
+
+        ul,
+        ol {
+            li {
+                margin: 4px 0px;
+            }
+        }
+
+        ul li {
+            list-style: circle;
+
+            &::marker {
+                transition: all 0.4s;
+                /* color: #49b1f5; */
+                color: var(--theme-color);
+                font-weight: 600;
+                font-size: 1.05em;
+            }
+
+            &:hover::marker {
+                color: #ff7242;
+            }
+        }
+
+        blockquote {
+            border: none;
+            margin: 15px 0px;
+            color: inherit;
+            border-radius: 4px;
+            padding: 1px 15px;
+            border-left: 4px solid var(--theme-color);
+            background-color: #f8f8f8;
+        }
     }
 
     .article-signature {
@@ -402,6 +567,7 @@ export default{
                 line-height: 28px;
                 font-size: 15px;
                 color: #4c4948;
+                
                 a {
                     /* text-decoration: none; */
                     color: #99a9bf;

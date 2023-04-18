@@ -2,7 +2,7 @@
     <div class="edit">
         <vinland-header/>
         <vinland-wife-cover>
-            <h1>新文章</h1>
+            <h1>{{ titile }}</h1>
         </vinland-wife-cover>
 
         <div class="edit-card">
@@ -54,14 +54,15 @@
                     <vinland-uploader 
                     @uploaded="handleThumbnailUploaded" 
                     @aboutToUpload="handleAboutToUploadThumbnail"
-                    @remove = "handleRemoveThumbnail"/>
+                    @remove = "handleRemoveThumbnail"
+                    ref="uploaderRef"/>
                 </el-form-item>
 
                 <el-form-item>
                     <el-button
                         id="submit-button"
                         type="primary"
-                        @click="submitArticle(ruleFormRef)"
+                        @click="submitForm(ruleFormRef, false)"
                         color="#1892ff"
                         class="el-button"
                         >立刻发布</el-button
@@ -69,10 +70,10 @@
                     <el-button
                         class="el-button"
                         id="draft-button"
-                        @click="submitDraft(ruleFormRef)"
+                        @click="submitForm(ruleFormRef, true)"
                         >存为草稿</el-button
                     >
-                    <el-button>取消</el-button>
+                    <el-button @click="cancelSubmit">取消</el-button>
                 </el-form-item>
               </el-form>
         </div>
@@ -91,8 +92,8 @@ import VinlandUploader from '../components/VinlandUploader.vue'
 import {ref, reactive, computed, nextTick} from 'vue'
 import { uploadImage } from "../api/image";
 import { mapState } from "../store/map";
-import { addArticle } from "../api/articleInfo"
-import { ElMessage } from "element-plus";
+import { addArticle, editArticle, getArticleDetails } from "../api/articleInfo"
+import { ElMessage, ElMessageBox } from "element-plus";
 import router from "../router";
 import bus from "../utils/bus";
 import markdownIt from "../utils/markdown-it";
@@ -104,12 +105,15 @@ export default{
         VinlandUploader,
     },
 
-    setup() {
+    setup(props) {
+        let isInEditMode = props.id ? true : false;
         let content = ref("");
         let mavonRef = ref();
         let ruleFormRef = ref();
         let { categoryCounts } = mapState("categoryAbout");
         let { tagCounts } = mapState("tagAbout");
+        let uploaderRef = ref()
+        let title = computed(() => isInEditMode? "编辑博客" : "新随笔")
         let categories = computed(() => {
             return categoryCounts.value.map((i) => ({
                 value: i.name,
@@ -123,12 +127,14 @@ export default{
             }));
         });
         let ruleForm = reactive({
+            id : undefined,
             title: "",
             summary: "",
             content: "",
             category: "",
             tags: [],
             thumbnail: "",
+            isDraft: false
         });
         let rules = reactive({
             title: [
@@ -154,6 +160,21 @@ export default{
             ],
         });
 
+        if(isInEditMode){
+            getArticleDetails(props.id).then((data) =>{
+                console.log(data)
+                Object.assign(ruleForm, data)
+                ruleForm.category = data.categoryName;
+                if(data.tags){
+                    ruleForm.tags = data.tags.map((t) => t.name);
+                }
+                if (data.thumbnail) {
+                    uploaderRef.value.setImgUrl(data.thumbnail);
+                    uploaderRef.value.isSuccessLabelVisible = true;
+                }
+            })
+        }
+
         function handleAboutToUploadThumbnail() {
             document.getElementById("submit-button").disabled = true;
             document.getElementById("draft-button").disabled = true;
@@ -163,29 +184,44 @@ export default{
             ruleForm.thumbnail = "";
         }
 
-        function submitArticle(form){
+        function submitForm(form, isDraft){
             if(!validateForm(form)) return;
 
-            ruleForm.isDraft = false
+            ruleForm.isDraft = isDraft
             generateSummary()
-            addArticle(ruleForm).then((id)=>{
-                ElMessage.success("博客已发布");
-                bus.emit("articlePosted");
-                setTimeout(() => {
-                    router.push("/article/" + id);
-                }, 1500);
-            })
+
+            let name = isDraft? "草稿" : "博客"
+
+            if(!isInEditMode){
+                addArticle(ruleForm).then((id)=>{
+                    ElMessage.success(name+"已发布");
+                    bus.emit("articlePosted");
+                    setTimeout(() => {
+                        router.push("/article/" + id);
+                    }, 1500);
+                })
+            }else{
+                editArticle(ruleForm).then((id) => {
+                    ElMessage.success(name+"已编辑")
+                    bus.emit("articlePosted")
+                    setTimeout(() => {
+                        router.push("/article/" + id);
+                    }, 1500);
+                })
+            }
         }
 
-        function submitDraft(form) {
-            if (!validateForm(form)) return;
-            ruleForm.isDraft = true;
-            generateSummary();
-            addArticle(ruleForm).then((id) => {
-                ElMessage.success("草稿保存成功");
-                setTimeout(() => {
-                    router.push("/article/" + id);
-                }, 1500);
+        function cancelSubmit(){
+            ElMessageBox.confirm(
+                "确定要取消博客的发表吗？开弓没有回头箭",
+                "一条友善的提示",
+                {
+                    confirmButtonText: "我意已决",
+                    cancelButtonText: "再等等",
+                    type: "warning",
+                }
+            ).then(() => {
+                router.push("/");
             });
         }
 
@@ -210,14 +246,6 @@ export default{
             ruleForm.summary = html.replace(/<[^>]+>/g, "").slice(0, 150);
         }
 
-        // function uploadThumbnail(param) {
-        //     uploadImage(param.file).then((data) => {
-        //         ruleForm.thumbnail = data;
-        //         console.log("上传完成");
-        //         document.getElementById("submit-button").disabled = false;
-        //         document.getElementById("draft-button").disabled = false;
-        //     });
-        // }
 
         function handleThumbnailUploaded(url){
             ruleForm.thumbnail = url
@@ -240,6 +268,7 @@ export default{
             window.scrollTo({ top: 0 });
         });
         return {
+            title,
             content,
             ruleForm,
             ruleFormRef,
@@ -250,8 +279,9 @@ export default{
             handleAboutToUploadThumbnail,
             handleRemoveThumbnail,
             handeleUploadImage,
-            submitDraft,
-            submitArticle,
+            submitForm,
+            cancelSubmit,
+            uploaderRef
         };
     },
     props: ["id"],

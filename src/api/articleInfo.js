@@ -54,3 +54,12 @@ export function addArticle(article) {
         'needAuthentication': true
     })
 }
+
+export function editArticle(article) {
+    return http({
+        'url':"/article",
+        'method':'put',
+        'data':article,
+        'needAuthentication':true
+    })
+}
