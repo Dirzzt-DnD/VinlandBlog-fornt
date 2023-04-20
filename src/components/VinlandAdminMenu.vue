@@ -7,7 +7,8 @@
                 <font-awesome-icon :icon="['fab','fort-awesome']" class="menu-icon"></font-awesome-icon>
                 <span>首页</span>
             </el-menu-item>
-            <el-menu-item index="2" @="$router.push('/archive')">
+
+            <el-menu-item index="2" @click="$router.push('/archive')">
                 <font-awesome-icon
                     :icon="['fas', 'box-archive']"
                     class="menu-icon"

@@ -2,7 +2,7 @@
     <div class="edit">
         <vinland-header/>
         <vinland-wife-cover>
-            <h1>{{ titile }}</h1>
+            <h1>{{ title }}</h1>
         </vinland-wife-cover>
 
         <div class="edit-card">
@@ -97,6 +97,7 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import router from "../router";
 import bus from "../utils/bus";
 import markdownIt from "../utils/markdown-it";
+
 export default{
     components:{
         VinlandFooter,
@@ -106,9 +107,9 @@ export default{
     },
 
     setup(props) {
+
         let isInEditMode = props.id ? true : false;
         let content = ref("");
-        let mavonRef = ref();
         let ruleFormRef = ref();
         let { categoryCounts } = mapState("categoryAbout");
         let { tagCounts } = mapState("tagAbout");
@@ -281,7 +282,7 @@ export default{
             handeleUploadImage,
             submitForm,
             cancelSubmit,
-            uploaderRef
+            uploaderRef,
         };
     },
     props: ["id"],

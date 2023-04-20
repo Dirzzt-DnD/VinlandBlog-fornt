@@ -146,7 +146,7 @@ import { mapState } from "../store/map";
 import { useDefaultThumbnail, defaultThumbnail } from '../utils/thumbnail';
 import VinlandLightBox from '../components/VinlandLightBox.vue';
 import markdownIt from "../utils/markdown-it";
-import MathQueue from "../utils/mathjax"
+import {initMathJax, renderByMathjax} from "../utils/mathjax"
 import router from '../router';
 
 export default{
@@ -185,7 +185,9 @@ export default{
                 //调用querySelector更方便将html元素调用进去而不是直接传class名称
                 // buildHljsLineNumber();
                 // buildCopyButton();
-                MathQueue("article-content");
+                initMathJax({}, () => {
+                    renderByMathjax(".article-content");
+                });
                 buildCodeBlock(".article-content");
                 articleLoaded.value = true;
             }).then(()=>{

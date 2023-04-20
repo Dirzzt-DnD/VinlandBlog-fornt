@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div id="home">
     <vinland-header/>
     <vinland-cover imgUrl="src/assets/image/home-cover.jpg" title="Vinland Blog" content="真正的战士不用剑">
     </vinland-cover>
@@ -86,8 +86,8 @@ import VinlandArchiveCard from "../components/VinlandArchiveCard.vue";
   }
 </script>
 
-<style scoped>
-.home {
+<style lang="less" scoped>
+#home {
     height: 100%;
     width: 100%;
     background-color: #f3f6f7;
@@ -103,14 +103,13 @@ import VinlandArchiveCard from "../components/VinlandArchiveCard.vue";
 .post-article-list {
     width: 74%;
     padding-left: 20px;
-}
-.post-article-list .post-article-card {
-    margin-top: 20px;
-}
-.post-article-list .post-article-card:nth-child(1) {
-    margin-top: 0;
-}
-
+      .post-article-list .post-article-card {
+        margin-top: 20px;
+      }
+      .post-article-list .post-article-card:nth-child(1) {
+        margin-top: 0;
+      }
+  }
 .side-content {
     width: 26%;
     margin-right: 20px;

@@ -1,49 +1,49 @@
-let isMathjaxConfig = false
-
-const initMathjaxConfig = () => {
-    if (!window.MathJax) {
-        return;
+export function injectMathJax(){
+    if(!window.MathJax){
+        const script = document.createElement('script')
+        script.src = 'https://cdn.bootcdn.net/ajax/libs/mathjax/3.2.0/es5/tex-chtml.js'
+        script.async = true
+        document.head.appendChild(script)
     }
-
-    window.MathJax.Hub.Config({
-        extensions: ["tex2jax.js"],
-        showProcessingMessages: false, //关闭js加载过程信息
-        messageStyle: "none", //不显示信息
-        jax: ["input/TeX", "output/HTML-CSS"],
-        tex2jax: {
-            inlineMath: [
-                ["$", "$"],
-                ["\\(", "\\)"]
-            ],
-            displayMath: [
-                ["$$", "$$"],
-                ["\\[", "\\]"]
-            ],
-            skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"]
-        },
-        "HTML-CSS": {
-            availableFonts: ["STIX", "TeX"], //可选字体
-            showMathMenu: true
-        }
-    });
-
-    isMathjaxConfig = true;
-};
-
-/**
- * 渲染数学公式
- * @param {string} className 需要提供数学公式支持的标签的类别名
- */
-function MathQueue(className) {
-    if (!window.MathJax) {
-        return
-    }
-    if (!isMathjaxConfig) {
-        initMathjaxConfig()
-    }
-
-    window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, document.getElementsByClassName(className)])
 }
 
+export function initMathJax(operation={}, callback){
+    injectMathJax()
+    const defaultConfig = {
+        tex: {
+            inlineMath: [['$', '$']],
+            displayMath: [['$$', '$$']],
+            processEnvironments: true,
+            processRefs: true,
+        },
+        options: {
+            skipHtmlTags: ['noscript', 'style', 'textarea', 'pre', 'code'],
+            ignoreHtmlClass: 'tex2jax_ignore',
+        },
+        startup: {
+            pageReady: () => {
+                callback && callback()
+            },
+        },
+        svg: {
+            fontCache: 'global',
+        },
+    }
+}
 
-export default MathQueue
+export function renderByMathjax(el){
+    if (!window.MathJax.version) {
+        return
+    }
+
+    el = [document.querySelector(el)]
+
+    return new Promise((resolve, reject) => {
+        window.MathJax.typesetPromise(el)
+            .then(() => {
+                resolve(void 0)
+            })
+            .catch((err) => reject(err))
+    })
+}
+

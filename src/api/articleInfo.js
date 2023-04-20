@@ -15,10 +15,14 @@ export function getArticleCount(){
 }
 
 
-export function getPostArticleList(pageNum, pageSize, categoryId) {
+export function getPostArticleList(pageNum, pageSize, categoryId, tagId) {
     let params = { pageNum, pageSize }
     if (categoryId) {
         params.categoryId = categoryId
+    }
+
+    if (tagId) {
+        params.tagId = tagId
     }
 
     return http({

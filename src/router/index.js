@@ -8,6 +8,8 @@ import Register from '../views/Register.vue'
 import HomeView from '../views/HomeView.vue'
 import Edit from "../views/Edit.vue"
 import Settings from '../views/Settings.vue'
+import Category from '../views/Category.vue'
+import Tag from '../views/Tag.vue'
 import { getUserInfo } from "../utils/storage"
 
 const router = createRouter({
@@ -93,7 +95,19 @@ const router = createRouter({
       meta: {
         needLogin: true
     }
-    }
+    },
+    {
+      path: "/category/:id",
+      name: "Category",
+      component: Category,
+      props: true
+  },
+  {
+      path: "/tag/:id",
+      name: "Tag",
+      component: Tag,
+      props: true
+  },
   ]
 })
 
