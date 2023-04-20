@@ -130,36 +130,17 @@
     </div>
 </template>
 <script>
-import VinlandHeader from '../components/VinlandHeader.vue'
-import VinlandFooter from '../components/VinlandFooter.vue';
-import VinlandWifeCover from '../components/VinlandWifeCover.vue';
-import VinlandAdminCard from '../components/VinlandAdminCard.vue';
-import VinlandHotArticleCard from '../components/VinlandHotArticleCard.vue';
-import VinlandBackToTop from '../components/VinlandBackToTop.vue';
-import VinlandCatalogCard from '../components/VinlandCatalogCard.vue';
 import { getPreviousNextArticle, getArticleDetails, updateViewCount } from "../api/articleInfo";
-import { reactive, nextTick, ref } from "vue";
 // import { buildHljsLineNumber } from "../utils/hljs";
 // import buildCopyButton from "../utils/copyButton";
 import buildCodeBlock from "../utils/code-block";
 import { mapState } from "../store/map";
 import { useDefaultThumbnail, defaultThumbnail } from '../utils/thumbnail';
-import VinlandLightBox from '../components/VinlandLightBox.vue';
 import markdownIt from "../utils/markdown-it";
 import {initMathJax, renderByMathjax} from "../utils/mathjax"
 import router from '../router';
 
 export default{
-    components:{
-        VinlandHeader,
-        VinlandAdminCard,
-        VinlandFooter,
-        VinlandBackToTop,
-        VinlandHotArticleCard,
-        VinlandWifeCover,
-        VinlandCatalogCard,
-        VinlandLightBox,
-    },
     setup(props){
         window.scrollTo({ top: 0 });
 

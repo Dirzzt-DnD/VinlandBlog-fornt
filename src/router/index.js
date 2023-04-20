@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import StartView from '../views/StartView.vue'
-import UploadArticleView from '../views/UploadArticleView.vue'
 import ArticleInfoTableView from '../views/ArticleInfoTableView.vue'
 import ArticleDetails from '../views/ArticleDetails.vue'
 import Login from '../views/Login.vue'
@@ -22,12 +21,6 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
     },
-    {
-      path: '/uploadArticle',
-      name: 'uploadArticle',
-      component: UploadArticleView,
-    },
-
     {
       path: "/article/:id/edit",
       name: "ArticleEdit",

@@ -71,16 +71,9 @@
 </template>
 
 <script>
-import VinlandAdminCard from './VinlandAdminCard.vue';
-import VinlandDivider from './VinlandDivider.vue'
 
 export default{
     name: "VinlandAdminMenu",
-    components: {
-    VinlandAdminCard,
-    VinlandDivider,
-    }
-
 }
 </script>
 

@@ -85,11 +85,6 @@
 
 
 <script>
-import VinlandFooter from '../components/VinlandFooter.vue'
-import VinlandWifeCover from '../components/VinlandWifeCover.vue'
-import VinlandHeader from '../components/VinlandHeader.vue'
-import VinlandUploader from '../components/VinlandUploader.vue'
-import {ref, reactive, computed, nextTick} from 'vue'
 import { uploadImage } from "../api/image";
 import { mapState } from "../store/map";
 import { addArticle, editArticle, getArticleDetails } from "../api/articleInfo"
@@ -99,12 +94,6 @@ import bus from "../utils/bus";
 import markdownIt from "../utils/markdown-it";
 
 export default{
-    components:{
-        VinlandFooter,
-        VinlandHeader,
-        VinlandWifeCover,
-        VinlandUploader,
-    },
 
     setup(props) {
 

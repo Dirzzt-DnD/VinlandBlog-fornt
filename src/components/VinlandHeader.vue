@@ -21,14 +21,9 @@
     </header>
 </template>
 <script>
-import VinlandAdminMenu from "./VinlandAdminMenu.vue"
-import { reactive, ref } from "@vue/reactivity";
 import store from "../store";
 export default{
     name:"VinlandHeader",
-    components: {
-        VinlandAdminMenu,
-    },
     setup(){
         let menuItems = reactive([
             { name: "首页", icon: ["fab", "fort-awesome"], href: "/" },

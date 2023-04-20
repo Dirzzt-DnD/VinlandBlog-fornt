@@ -8,15 +8,10 @@
     </vinland-card>
 </template>
 <script>
-import VinlandCard from './VinlandCard.vue';
 import { mapState } from '../store/map';
-import { computed } from 'vue'
 import {linearColorWordCloud} from '../utils/word-cloud'
 export default{
     name:"VinlandTagCard",
-    components:{
-        VinlandCard
-    },
     setup(){
         let { tagCounts } = mapState("tagAbout");
         let tagClouds = computed(() => linearColorWordCloud(tagCounts.value));

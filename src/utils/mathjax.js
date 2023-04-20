@@ -7,7 +7,7 @@ export function injectMathJax(){
     }
 }
 
-export function initMathJax(operation={}, callback){
+export function initMathJax(options={}, callback){
     injectMathJax()
     const defaultConfig = {
         tex: {
@@ -29,6 +29,8 @@ export function initMathJax(operation={}, callback){
             fontCache: 'global',
         },
     }
+    const mergeConfig = Object.assign({}, defaultConfig, options)
+    window.MathJax = mergeConfig
 }
 
 export function renderByMathjax(el){
@@ -36,7 +38,7 @@ export function renderByMathjax(el){
         return
     }
 
-    el = [document.querySelector(el)]
+    el = [...document.querySelectorAll(el)]
 
     return new Promise((resolve, reject) => {
         window.MathJax.typesetPromise(el)

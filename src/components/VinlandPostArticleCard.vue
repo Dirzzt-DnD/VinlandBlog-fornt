@@ -36,7 +36,6 @@
     </div>
 </template>
 <script>
-import { reactive } from "vue";
 import {useDefaultThumbnail } from "../utils/thumbnail";
 
 export default{

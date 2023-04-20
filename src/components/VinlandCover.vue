@@ -3,9 +3,9 @@
         <div class="cover-word-container">
             <h1 class="cover-title particletext bubbles">{{title}}</h1>
             <p class="cover-content">{{ content }}</p>
-            <el-icon size="50px" class="arrow-down" @click="scrollToContent"
-                ><arrow-down
-            /></el-icon>
+            <el-icon size="50px" class="arrow-down" @click="scrollToContent">
+                <IEpArrowDown/>
+            </el-icon>
         </div>
     </div>
 </template>

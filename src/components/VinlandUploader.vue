@@ -78,7 +78,6 @@
     </div>
 </template>
 <script>
-import { ref, computed } from "vue";
 import { uploadImage } from "../api/image";
 import { Plus } from "@element-plus/icons-vue";
 import VueEasyLightbox from "vue-easy-lightbox";

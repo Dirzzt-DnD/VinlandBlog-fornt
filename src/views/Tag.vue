@@ -38,37 +38,12 @@
 </template>
 
 <script>
-import VinlandHeader from '../components/VinlandHeader.vue'
-import VinlandWifeCover from '../components/VinlandWifeCover.vue';
-import VinlandCategoryCard from '../components/VinlandCategoryCard.vue';
-import VinlandHotArticleCard from '../components/VinlandHotArticleCard.vue';
-import VinlandTagCard from '../components/VinlandTagCard.vue';
-import VinlandArchiveCard from '../components/VinlandArchiveCard.vue';
-import VinlandAdminCard from '../components/VinlandAdminCard.vue';
-import VinlandPostArticleCard from '../components/VinlandPostArticleCard.vue';
-import VinlandFooter from '../components/VinlandFooter.vue';
-import VinlandBackToTop from '../components/VinlandBackToTop.vue';
-
-
-import { computed, reactive, ref } from "vue";
 import { getPostArticleList } from "../api/articleInfo";
 import { defaultThumbnail } from "../utils/thumbnail";
 import { mapState } from "../store/map";
 
 export default{
     name:"tag",
-    components:{
-        VinlandHeader,
-        VinlandWifeCover,
-        VinlandAdminCard,
-        VinlandArchiveCard,
-        VinlandHotArticleCard,
-        VinlandPostArticleCard,
-        VinlandFooter,
-        VinlandBackToTop,
-        VinlandTagCard,
-        VinlandCategoryCard
-    },
 
     setup(props){
         let pageSize = 10

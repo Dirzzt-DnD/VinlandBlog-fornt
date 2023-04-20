@@ -55,18 +55,12 @@
     </div>
 </template>
 <script>
-import VinlandButton from '../components/VinlandButton.vue'
-import VinlandFormCard from '../components/VinlandFormCard.vue'
 import { ref,reactive } from 'vue';
 import { registerApi } from '../api/login';
 import { md5Encryption } from "../utils/encrypt";
 import { ElMessage } from "element-plus";
 export default{
     name: "register",
-    components: {
-        VinlandButton,
-        VinlandFormCard
-    },
 
     setup() {
         let ruleFormRef = ref();

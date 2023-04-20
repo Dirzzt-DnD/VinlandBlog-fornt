@@ -35,9 +35,6 @@
 </template>
 
 <script>
-import { ref,reactive } from 'vue';
-import VinlandButton from '../components/VinlandButton.vue'
-import VinlandFormCard from '../components/VinlandFormCard.vue'
 import { setToken, setUserInfo,removeToken,removeUserInfo } from "../utils/storage";
 import {loginApi} from '../api/login'
 import { md5Encryption } from "../utils/encrypt";
@@ -47,10 +44,6 @@ import store from '../store';
 
 export default{
     name: "Login",
-    components: {
-        VinlandButton,
-        VinlandFormCard
-    },
     setup(){
         removeToken();
         removeUserInfo();

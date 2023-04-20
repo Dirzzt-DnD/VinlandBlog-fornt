@@ -33,36 +33,11 @@
 </template>
 
 <script>
-import { reactive, ref } from "vue";
-import VinlandCover from '../components/VinlandCover.vue';
-import VinlandHeader from '../components/VinlandHeader.vue';
-import VinlandBackToTop from '../components/VinlandBackToTop.vue';
-import VinlandPostArticleCard from "../components/VinlandPostArticleCard.vue";
 import { getPostArticleList } from "../api/articleInfo"
 import VinlandFooter from "../components/VinlandFooter.vue";
 import { defaultThumbnail } from "../utils/thumbnail";
-
-import VinlandAdminCard from "../components/VinlandAdminCard.vue"
-import VinlandHotArticleCard from "../components/VinlandHotArticleCard.vue";
-import VinlandCategoryCard from "../components/VinlandCategoryCard.vue";
-import VinlandTagCard from "../components/VinlandTagCard.vue";
-import VinlandArchiveCard from "../components/VinlandArchiveCard.vue";
-
   export default{
     name: "Home",
-    components:{
-    VinlandCover,
-    VinlandHeader,
-    VinlandBackToTop,
-    VinlandPostArticleCard,
-    VinlandFooter,
-    VinlandAdminCard,
-    VinlandHotArticleCard,
-    VinlandCategoryCard,
-    VinlandTagCard,
-    VinlandArchiveCard
-},
-
     setup(){
       let pageSize = 10;
       let postArticleList = reactive([])

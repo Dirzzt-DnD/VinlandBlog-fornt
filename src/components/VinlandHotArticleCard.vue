@@ -20,16 +20,10 @@
 
 </template>
 <script>
-import VinlandCard from './VinlandCard.vue'
 import { getHotArticleList } from '../api/articleInfo'
-import cover from "../assets/image/article-thumbnail.jpg"
-import { ref,reactive } from 'vue';
 import { defaultThumbnail, useDefaultThumbnail } from "../utils/thumbnail";
 export default{
     name: "VinlandHotArticleCount",
-    components:{
-        VinlandCard
-    },
     setup(){
         let hotArticleList = reactive([]);
 
