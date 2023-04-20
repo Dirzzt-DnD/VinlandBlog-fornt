@@ -38,7 +38,7 @@ httpClient.interceptors.response.use(response =>{
 			cancelButtonText: '放弃',
 			type: 'warning',
 		}).then(()=>{
-			router.push('/login')
+			router.replace('/login')
 		})
 	}else if(msg){
 		ElMessage.error(msg)

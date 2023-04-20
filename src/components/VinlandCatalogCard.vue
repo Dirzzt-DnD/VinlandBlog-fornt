@@ -27,13 +27,9 @@
 </template>
 <script>
 import { reactive, ref } from "vue"
-import VinlandCard from './VinlandCard.vue'
 
 export default{
     name:"VinlandCatalog",
-    components:{
-        VinlandCard,
-    },
     setup(props) {
         let titles = reactive(getTitles());
         let currentTitle = reactive({});

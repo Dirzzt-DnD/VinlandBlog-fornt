@@ -38,11 +38,12 @@
 import { ref,reactive } from 'vue';
 import VinlandButton from '../components/VinlandButton.vue'
 import VinlandFormCard from '../components/VinlandFormCard.vue'
-import { setToken, setUserInfo,removeToken } from "../utils/storage";
+import { setToken, setUserInfo,removeToken,removeUserInfo } from "../utils/storage";
 import {loginApi} from '../api/login'
 import { md5Encryption } from "../utils/encrypt";
 import { ElMessage } from "element-plus";
 import router from "../router/index";
+import store from '../store';
 
 export default{
     name: "Login",
@@ -52,6 +53,7 @@ export default{
     },
     setup(){
         removeToken();
+        removeUserInfo();
         let ruleFormRef = ref();
         let ruleForm = reactive({
             userName: "",
@@ -83,6 +85,7 @@ export default{
                         console.log(data)
                         setToken(data.token)
                         setUserInfo(data.userInfo)
+                        store.commit("adminAbout/updateIsAdmin");
                         router.push("/")
                     }
                 )

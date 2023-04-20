@@ -18,7 +18,7 @@ export function logout(){
 
 export function registerApi(userName, nickName, email, password){
     return http({
-        'url': '/register',
+        'url': '/user/register',
         'method': 'post',
         data: { userName, nickName, email, password }
         })

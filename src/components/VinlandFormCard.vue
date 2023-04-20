@@ -60,7 +60,7 @@ export default {
     font-size: 0.7875rem !important;
 }
 .box-card {
-    width: 30%;
+    width: 461px;
     border: 1px solid transparent;
     border-radius: 10px;
     box-shadow: none !important;
@@ -76,5 +76,11 @@ export default {
     font-size: 20px;
     color: #627d98;
     margin-top: 0px;
+}
+
+@media screen and (max-width: 500px) {
+    .box-card {
+        width: 80%;
+    }
 }
 </style>

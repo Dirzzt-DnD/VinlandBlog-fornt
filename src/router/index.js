@@ -7,6 +7,7 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import HomeView from '../views/HomeView.vue'
 import Edit from "../views/Edit.vue"
+import Settings from '../views/Settings.vue'
 import { getUserInfo } from "../utils/storage"
 
 const router = createRouter({
@@ -84,6 +85,15 @@ const router = createRouter({
           needAuthentication: true
       }
     },
+    {
+      path: "/user/settings",
+      name: "UserSettings",
+      component: Settings,
+      props: true,
+      meta: {
+        needLogin: true
+    }
+    }
   ]
 })
 
@@ -95,9 +105,17 @@ router.beforeEach((to,from,next)=>{
     } else {
         next({ name: "Login" })
     }
-    } else {
-        next()
+    } else if(to.meta.needLogin){
+      let userInfo = getUserInfo()
+        if (userInfo) {
+            next()
+        } else {
+            next({ name: "Login" })
+        }
     }
+     else {
+        next()
+      }
 })
 
 export default router

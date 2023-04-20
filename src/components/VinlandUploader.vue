@@ -82,6 +82,8 @@ import { ref, computed } from "vue";
 import { uploadImage } from "../api/image";
 import { Plus } from "@element-plus/icons-vue";
 import VueEasyLightbox from "vue-easy-lightbox";
+import { ElMessage } from "element-plus";
+
 export default{
     name: 'Vinlandupdared',
     emits: ["uploaded", "aboutToUpload", "removed"],
@@ -137,6 +139,7 @@ export default{
             progress.value = 0
             isProgressVisible.value = true
             isSuccessLabelVisible.value = false
+            context.emit("uploaded", "");
 
             uploadImage(file, progress).then(
                 (url) => {
@@ -152,6 +155,8 @@ export default{
                 () =>{
                     isProgressVisible.value = false;
                     localImageUrl.value = "";
+                    ontext.emit("uploaded", "");
+                    ElMessage.error("哎呀，图片上传出错啦~")
                 }
             )
         }

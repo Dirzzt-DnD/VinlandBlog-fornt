@@ -19,7 +19,7 @@
                     background
                     layout="prev, pager, next"
                     :total="articleCount"
-                    :page-size="10"
+                    :page-size=pageSize
                     id="pagination"
                     @current-change="onCurrentPageChanged"
                 >
@@ -64,13 +64,14 @@ import VinlandArchiveCard from "../components/VinlandArchiveCard.vue";
 },
 
     setup(){
+      let pageSize = 10;
       let postArticleList = reactive([])
       let articleCount = ref(0)
 
       onCurrentPageChanged(1);
 
       function onCurrentPageChanged(pageNum) {
-        getPostArticleList(pageNum, 10).then((data) => {
+        getPostArticleList(pageNum, pageSize).then((data) => {
           articleCount.value = parseInt(data.total);
           data.rows.forEach((article) => {
             article.createTime = article.createTime.split(" ")[0];
@@ -80,7 +81,7 @@ import VinlandArchiveCard from "../components/VinlandArchiveCard.vue";
         });
         }
 
-      return { postArticleList, articleCount,onCurrentPageChanged};
+      return { pageSize,postArticleList, articleCount,onCurrentPageChanged};
     }
   }
 </script>
