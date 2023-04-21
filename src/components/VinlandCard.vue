@@ -63,7 +63,7 @@ import {reactive} from "vue"
 }
 .card-header span {
     font-size: 17px;
-    color: #4c4948;
+    color: var(-- text-color);;
 }
 
 

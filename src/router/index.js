@@ -11,6 +11,9 @@ import CategoryDetails from '../views/category/CategoryDetails.vue'
 import CategoryList from '../views/category/CategoryList.vue'
 import TagDetails from '../views/Tag/TagDetails.vue'
 import TagList from '../views/Tag/TagList.vue'
+import ArchiveList from '../views/archive/ArchiveList.vue'
+import ArchiveDetails from '../views/archive/ArchiveDetails.vue'
+import PageNotFound from '../views/PageNotFound.vue'
 import { getUserInfo } from "../utils/storage"
 
 const router = createRouter({
@@ -104,6 +107,21 @@ const router = createRouter({
     name: "TagList",
     component: TagList,
   },
+  {
+    path:"/archive",
+    name:"ArchiveList",
+    component: ArchiveList
+  },
+  {
+    path:"/archive/:year/:month",
+    name:"ArchiveDetails",
+    component: ArchiveDetails,
+    props: true
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    component: PageNotFound
+  }
   ]
 })
 

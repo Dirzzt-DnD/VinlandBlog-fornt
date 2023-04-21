@@ -8,3 +8,12 @@ export function getArchiveCountList(pageNum, pageSize){
         }
     })
 }
+
+export function getArchiveList(pageNum, pageSize){
+    return http({
+        url: "/archive/archiveList",
+        params: {
+            pageNum, pageSize
+        }
+    })
+}
