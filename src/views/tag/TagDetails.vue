@@ -1,11 +1,11 @@
 <template>
-    <div id="category">
+    <div id="tag-details">
         <vinland-header/>
-        <vinland-wife-cover>
-            <div class="category-info">
-                <h1 class="category-name">{{ categoryName }}</h1>
+        <VinlandWifeCover>
+            <div>
+                <h1 class="tag-name">{{ tagName }}</h1>
             </div>
-        </vinland-wife-cover>
+        </VinlandWifeCover>
 
         <div class="container">
             <div class="side-content">
@@ -32,79 +32,82 @@
 
         <vinland-footer/>
         <vinland-back-to-top/>
+
     </div>
 </template>
 
 <script>
-import { getPostArticleList } from "../api/articleInfo";
-import { defaultThumbnail } from "../utils/thumbnail";
-import { mapState } from "../store/map";
+import { getPostArticleList } from "../../api/articleInfo";
+import { defaultThumbnail } from "../../utils/thumbnail";
+import { mapState } from "../../store/map";
 
-
-export default {
-    name: "Category",
+export default{
+    name:"tagDetails",
 
     setup(props){
         let pageSize = 10
         let postArticles = reactive([])
         let articleCount = ref(0)
-        let { categoryCounts } = mapState("categoryAbout")
-        let categoryName = computed(() => {
+        let { tagCounts } = mapState("tagAbout")
+        let tagName = computed(() => {
             let map = Object.fromEntries(
-                categoryCounts.value.map((i) => [i.id, i.name])
+                tagCounts.value.map((i) => [i.id, i.name])
             )
             return map[props.id]
         })
 
-        onCurrentPageChanged(1);
+        onCurrentPageChanged(1)
 
-        function onCurrentPageChanged(pageNum){
-            getPostArticleList(pageNum, pageSize, props.id).then((data) => {
-                articleCount.value = parseInt(data.total);
-                data.rows.forEach((article) => {
-                    article.createTime = article.createTime.split(" ")[0];
-                    article.thumbnail = article.thumbnail || defaultThumbnail;
-                });
-                postArticles.splice(0, postArticles.length, ...data.rows);
-            });
+        function onCurrentPageChanged(pageNum) {
+            getPostArticleList(pageNum, pageSize, null, props.id).then(
+                (data) => {
+                    articleCount.value = parseInt(data.total);
+                    data.rows.forEach((article) => {
+                        article.createTime = article.createTime.split(" ")[0];
+                        article.thumbnail =
+                            article.thumbnail || defaultThumbnail;
+                    });
+                    postArticles.splice(0, postArticles.length, ...data.rows);
+                }
+            );
         }
 
         window.scrollTo({ top: 0 })
         return {
-            categoryName,
+            tagName,
             postArticles,
             articleCount,
             pageSize,
             onCurrentPageChanged,
-        }
+        };
     },
-    props: ["id", "name"]
-};
-</script>
 
-<style lang="less" scoped>
-#category{
-    height: 100%;
-    width: 100%;
+    props: ["id", "name"],
 }
-.container{
-    padding: 45px 15px;
+</script>
+<style lang="less" scoped>
+#tag-details{
+    width: 100%;
+    height: 100%;
+}
+
+.container {
+    padding: 40px 15px;
     max-width: 1300px;
     margin: 0 auto;
     display: flex;
     animation: fadeInUp 1s;
 }
-
-.wife-cover{
+.wife-cover {
     display: flex;
     align-items: center;
     justify-content: center;
-    .category-info {
+    .tag-info {
         text-align: center;
         position: absolute;
         width: 100%;
         text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-        .category-name {
+        .tag-name {
             font-size: 40px;
             color: white;
             line-height: 1.5;
@@ -118,9 +121,8 @@ export default {
         }
     }
 }
-
 .post-article-list {
-     width: 74%;
+    width: 74%;
     .post-article-card {
         margin-top: 20px;
     }
@@ -128,12 +130,10 @@ export default {
         margin-top: 0;
     }
 }
-
 .side-content {
     width: 26%;
     margin-right: 20px;
 }
-
 :deep(#pagination) {
     margin-top: 20px;
     justify-content: center;
@@ -158,7 +158,6 @@ export default {
         font-weight: normal;
     }
 }
-
 @media screen and (max-width: 900px) {
     .side-content {
         display: none;
@@ -177,5 +176,4 @@ export default {
         opacity: 1;
     }
 }
-
 </style>

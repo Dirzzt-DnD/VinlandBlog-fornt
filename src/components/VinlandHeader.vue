@@ -15,7 +15,7 @@
             <font-awesome-icon :icon="['fes','bars']"/>
         </div>
 
-        <el-drawer v-model="drawer" direction="ltr" :show-close="false" :with-header="false" :size="350">
+        <el-drawer v-model="drawer" direction="ltr" :show-close="false" :with-header="false" size="40%">
             <vinland-admin-menu></vinland-admin-menu>
         </el-drawer>
     </header>
@@ -25,6 +25,7 @@ import store from "../store";
 export default{
     name:"VinlandHeader",
     setup(){
+        let drawer = ref(false);
         let menuItems = reactive([
             { name: "首页", icon: ["fab", "fort-awesome"], href: "/" },
             { name: "归档", icon: ["fas", "box-archive"], href: "/archive" },
@@ -41,8 +42,13 @@ export default{
             });
         }
 
-        let drawer = ref(false)
-
+        window.addEventListener("resize", function () {
+            let scale = window.devicePixelRatio;
+            let width = document.documentElement.clientWidth * scale;
+            if (width > 900 * scale) {
+                drawer.value = false;
+            }
+        });
         return {menuItems, drawer}
     },
     

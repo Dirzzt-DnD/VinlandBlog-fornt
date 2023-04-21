@@ -59,5 +59,6 @@ declare module '@vue/runtime-core' {
     VinlandTagCard: typeof import('./components/VinlandTagCard.vue')['default']
     VinlandUploader: typeof import('./components/VinlandUploader.vue')['default']
     VinlandWifeCover: typeof import('./components/VinlandWifeCover.vue')['default']
+    VinlandWorldCloudCard: typeof import('./components/VinlandWorldCloudCard.vue')['default']
   }
 }

@@ -1,14 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import StartView from '../views/StartView.vue'
 import ArticleInfoTableView from '../views/ArticleInfoTableView.vue'
-import ArticleDetails from '../views/ArticleDetails.vue'
+import ArticleDetails from '../views/article/ArticleDetails.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import HomeView from '../views/HomeView.vue'
-import Edit from "../views/Edit.vue"
+import ArticleEdit from "../views/article/ArticleEdit.vue"
 import Settings from '../views/Settings.vue'
-import Category from '../views/Category.vue'
-import Tag from '../views/Tag.vue'
+import CategoryDetails from '../views/category/CategoryDetails.vue'
+import CategoryList from '../views/category/CategoryList.vue'
+import TagDetails from '../views/Tag/TagDetails.vue'
+import TagList from '../views/Tag/TagList.vue'
 import { getUserInfo } from "../utils/storage"
 
 const router = createRouter({
@@ -24,7 +26,7 @@ const router = createRouter({
     {
       path: "/article/:id/edit",
       name: "ArticleEdit",
-      component: Edit,
+      component: ArticleEdit,
       props: true,
       meta: {
           needAuthentication: true
@@ -34,7 +36,7 @@ const router = createRouter({
     {
       path: "/article/add",
       name: "ArticleAdd",
-      component: Edit,
+      component: ArticleEdit,
       meta:{
         needAuthentication: true
       }
@@ -72,15 +74,6 @@ const router = createRouter({
       props: true
     },
     {
-      path: "/article/:id/edit",
-      name: "ArticleEdit",
-      component: Edit,
-      props: true,
-      meta: {
-          needAuthentication: true
-      }
-    },
-    {
       path: "/user/settings",
       name: "UserSettings",
       component: Settings,
@@ -91,15 +84,25 @@ const router = createRouter({
     },
     {
       path: "/category/:id",
-      name: "Category",
-      component: Category,
+      name: "CategoryDetails",
+      component: CategoryDetails,
       props: true
   },
   {
+    path: "/category",
+    name: "CategoryList",
+    component: CategoryList,
+  },
+  {
       path: "/tag/:id",
-      name: "Tag",
-      component: Tag,
+      name: "TagDetails",
+      component: TagDetails,
       props: true
+  },
+  {
+    path: "/tag",
+    name: "TagList",
+    component: TagList,
   },
   ]
 })

@@ -130,15 +130,15 @@
     </div>
 </template>
 <script>
-import { getPreviousNextArticle, getArticleDetails, updateViewCount } from "../api/articleInfo";
+import { getPreviousNextArticle, getArticleDetails, updateViewCount } from "../../api/articleInfo";
 // import { buildHljsLineNumber } from "../utils/hljs";
 // import buildCopyButton from "../utils/copyButton";
-import buildCodeBlock from "../utils/code-block";
-import { mapState } from "../store/map";
-import { useDefaultThumbnail, defaultThumbnail } from '../utils/thumbnail';
-import markdownIt from "../utils/markdown-it";
-import {initMathJax, renderByMathjax} from "../utils/mathjax"
-import router from '../router';
+import buildCodeBlock from "../../utils/code-block";
+import { mapState } from "../../store/map";
+import { useDefaultThumbnail, defaultThumbnail } from '../../utils/thumbnail';
+import markdownIt from "../../utils/markdown-it";
+import {initMathJax, renderByMathjax} from "../../utils/mathjax"
+import router from '../../router';
 
 export default{
     setup(props){

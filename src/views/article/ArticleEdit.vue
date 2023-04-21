@@ -85,13 +85,13 @@
 
 
 <script>
-import { uploadImage } from "../api/image";
-import { mapState } from "../store/map";
-import { addArticle, editArticle, getArticleDetails } from "../api/articleInfo"
+import { uploadImage } from "../../api/image";
+import { mapState } from "../../store/map";
+import { addArticle, editArticle, getArticleDetails } from "../../api/articleInfo"
 import { ElMessage, ElMessageBox } from "element-plus";
-import router from "../router";
-import bus from "../utils/bus";
-import markdownIt from "../utils/markdown-it";
+import router from "../../router";
+import bus from "../../utils/bus";
+import markdownIt from "../../utils/markdown-it";
 
 export default{
 
