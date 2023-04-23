@@ -39,9 +39,9 @@ export function getUserInfo(){
 
 export function updateUserInfo(userInfo){
     return http({
-        url: "/user/userInfo",
-        method: "put",
-        data: userInfo,
-        needAuthentication: true
+        'url': "/user/userInfo",
+        'method': "put",
+        'data': userInfo,
+        'needAuthentication': true
     })
 }
