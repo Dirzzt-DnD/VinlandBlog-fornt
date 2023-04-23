@@ -78,10 +78,10 @@ import { defaultThumbnail } from "../utils/thumbnail";
 .post-article-list {
     width: 74%;
     padding-left: 20px;
-      .post-article-list .post-article-card {
+      .post-article-card {
         margin-top: 20px;
       }
-      .post-article-list .post-article-card:nth-child(1) {
+      .post-article-card:nth-child(1) {
         margin-top: 0;
       }
   }

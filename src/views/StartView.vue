@@ -8,7 +8,7 @@
           <el-aside width="200px" style="height: 100%;">
               <el-menu :router="true" active-text-color="#ffd04b" background-color="#545c64" text-color="#fff" style="height: 100%;">
                 <el-menu-item index="/uploadArticle">
-                  <el-icon><Edit /></el-icon>
+                  <IEpEdit/>
                   <span>上传文章</span>
                 </el-menu-item>
 

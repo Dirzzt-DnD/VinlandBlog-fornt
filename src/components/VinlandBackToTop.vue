@@ -16,13 +16,14 @@
             function scrollToTop() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
             }
-        window.onscroll = function () {
-            if (window.scrollY > 300) {
-                buttonClass.value = "";
-            } else {
-                buttonClass.value = "hidden";
-            }
-        };
+
+            window.addEventListener("scroll", function(){
+                if(this.window.scrollY > 300){
+                    buttonClass.value = ""
+                }else{
+                    buttonClass.value = "hidden"
+                }
+            })
         return { buttonClass, scrollToTop };
     },
         

@@ -131,14 +131,14 @@ router.beforeEach((to,from,next)=>{
     if (isAdmin) {
         next()
     } else {
-        next({ name: "Login" })
+        next({ name: "login" })
     }
     } else if(to.meta.needLogin){
       let userInfo = getUserInfo()
         if (userInfo) {
             next()
         } else {
-            next({ name: "Login" })
+            next({ name: "login" })
         }
     }
      else {

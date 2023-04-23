@@ -5,7 +5,7 @@
                 <el-form-item prop="userName">
                     <el-input v-model="ruleForm.userName" class="w-50 m-3" size="large" placeholder="用户名">
                     <template #prefix>
-                        <el-icon><User /></el-icon>
+                        <IEpUser/>
                     </template>
                     </el-input>
                 </el-form-item>
@@ -13,7 +13,7 @@
                 <el-form-item prop="password">
                     <el-input v-model="ruleForm.password" class="w-50 m-2" size="large" type="password" placeholder="密码">
                         <template #prefix>
-                            <el-icon><Lock /></el-icon>
+                            <IEpLock/>
                         </template>
                     </el-input>
                 </el-form-item>

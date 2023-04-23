@@ -5,20 +5,22 @@
                 <el-form-item prop="userName">
                     <el-input v-model="ruleForm.userName" class="w-5 m-3" size="large" placeholder="用户名">
                     <template #prefix>
-                        <el-icon><User /></el-icon>
+                        <IEpUser/>
                     </template>
                     </el-input>
                 </el-form-item>
 
                 <el-form-item prop="nickName">
                     <el-input v-model="ruleForm.nickName" class="w-5 m-3" size="large" placeholder="昵称"></el-input>
-                    <template #prefix><el-icon><Postcard /></el-icon></template>
+                    <IEpPostcard/>
+                    <!-- <template #prefix><el-icon><Postcard /></el-icon></template> -->
                 </el-form-item>
 
                 <el-form-item prop="email">
                     <el-input v-model="ruleForm.email" class="w-5 m-3" size="large" placeholder="邮箱">
                     <template #prefix>
-                        <el-icon><Promotion /></el-icon>
+                        <IEpPromotion/>
+                        <!-- <el-icon><Promotion /></el-icon> -->
                     </template>
                     </el-input>
                 </el-form-item>
@@ -32,9 +34,7 @@
                         placeholder="密码"
                     >
                         <template #prefix>
-                            <el-icon class="el-input__icon">
-                                <Lock />
-                            </el-icon>
+                            <IEpLock class="el-input__icon"/>
                         </template>
                     </el-input>
                 </el-form-item>
@@ -42,8 +42,9 @@
                 <el-form-item prop="ensurePassword">
                     <el-input v-model="ruleForm.ensurePassword" class="w-5 m-3" size="large" type="password" placeholder="确认密码">
                         <template #prefix>
-                        <el-icon><Lock /></el-icon>
-                    </template>
+                        <!-- <el-icon><Lock /></el-icon> -->
+                        <IEpLock/>
+                        </template>
                     </el-input>
                 </el-form-item>
 
