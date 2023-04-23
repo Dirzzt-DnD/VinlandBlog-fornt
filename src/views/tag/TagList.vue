@@ -6,13 +6,7 @@
         </vinland-wife-cover>
 
         <div class="container">
-            <div class="side-content">
-                <vinland-admin-card/>
-                <vinland-hot-article-card/>
-                <vinland-category-card/>
-                <vinland-tag-card/>
-                <vinland-archive-card/>
-            </div>
+            <vinland-side-bar/> 
 
             <vinland-world-cloud-card :words="tagCounts" baseUrl="/tag"/>
         </div>

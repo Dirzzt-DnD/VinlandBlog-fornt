@@ -8,13 +8,7 @@
         </vinland-wife-cover>
 
         <div class="container">
-            <div class="side-content">
-                <vinland-admin-card/>
-                <vinland-hot-article-card/>
-                <vinland-category-card/>
-                <vinland-tag-card/>
-                <vinland-archive-card/>
-            </div>
+            <vinland-side-bar/>
             <div class="post-article-list">
             <vinland-post-article-card v-for="(article, index) in postArticles" :key="article.id" :article="article" :reverse="index % 2 ==1"/>
             <el-pagination

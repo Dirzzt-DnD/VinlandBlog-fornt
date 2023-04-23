@@ -34,13 +34,13 @@
 
         <div class="container">
             <!-- 侧边栏 -->
-            <div class="side-content">
+            <vinland-side-bar>
                 <vinland-admin-card />
                 <div class="sticky-layout">
                     <vinland-catalog-card v-if="articleLoaded"/>
                     <vinland-hot-article-card />
                 </div>
-            </div>
+            </vinland-side-bar>
 
             <!-- 文章内容 -->
             <div class="post-body">

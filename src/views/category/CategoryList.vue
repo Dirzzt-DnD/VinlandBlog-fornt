@@ -6,14 +6,7 @@
         </vinland-wife-cover>
 
         <div class="container">
-            <div class="side-content">
-                <vinland-admin-card/>
-                <vinland-hot-article-card/>
-                <vinland-category-card/>
-                <vinland-tag-card/>
-                <vinland-archive-card/>
-            </div>
-
+            <vinland-side-bar/>
             <vinland-world-cloud-card :words="categoryCounts" baseUrl="/category"/>
         </div>
 
@@ -22,16 +15,18 @@
     </div>
 </template>
 <script>
+import VinlandSidebar from "../../components/VinlandSidebar.vue";
 import { mapState } from "../../store/map";
 
 export default{
-    name:"CategoryList",
-    setup(){
+    name: "CategoryList",
+    setup() {
         window.scrollTo({ top: 0 });
         let { categoryCounts } = mapState("categoryAbout");
-        console.log(categoryCounts)
+        console.log(categoryCounts);
         return { categoryCounts };
-    }
+    },
+    components: { VinlandSidebar }
 }
 </script>
 

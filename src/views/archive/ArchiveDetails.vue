@@ -7,14 +7,7 @@
             </div>
         </vinland-wife-cover>
         <div class="container">
-            <div class="side-content">
-                <vinland-admin-card/>
-                <vinland-hot-article-card/>
-                <vinland-category-card/>
-                <vinland-tag-card/>
-                <vinland-archive-card/>
-            </div>
-
+            <vinland-side-bar/>
              <!-- 发表的文章 -->
              <div class="post-article-list">
                 <vinland-post-article-card
@@ -67,7 +60,7 @@ export default{
                     article.createTime = article.createTime.split(" ")[0];
                     article.thumbnail = article.thumbnail || defaultThumbnail;
                 });
-                postArticles.splice(0, postArticles.length, ...data.rows);
+                postArticles.push(...data.rows);
             });
         }
         window.scrollTo({ top: 0 });

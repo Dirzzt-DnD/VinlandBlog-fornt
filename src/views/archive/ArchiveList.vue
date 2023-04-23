@@ -4,13 +4,7 @@
             <h1>归档</h1>
         </vinland-wife-cover>
         <div class="container">
-            <div class="side-content">
-                <vinland-admin-card/>
-                <vinland-hot-article-card/>
-                <vinland-category-card/>
-                <vinland-tag-card/>
-                <vinland-archive-card/>
-            </div>
+            <vinland-side-bar/>
             <div class="archive-body">
                 <div class="archive-card">
                     <el-timeline class="timeline">

@@ -4,13 +4,7 @@
     <vinland-cover imgUrl="src/assets/image/home-cover.jpg" title="Vinland Blog" content="真正的战士不用剑">
     </vinland-cover>
     <div class="container">
-      <div class="side-content">
-        <vinland-admin-card></vinland-admin-card>
-        <vinland-hot-article-card/>
-        <vinland-category-card/>
-        <vinland-tag-card/>
-        <vinland-archive-card/>
-      </div>
+      <vinland-side-bar/>
       
       <div class="post-article-list">
         <vinland-post-article-card v-for="(article,index) in postArticleList" :key="article.id" :article="article" :reverse="index % 2 == 1"/>
@@ -52,7 +46,7 @@ import { defaultThumbnail } from "../utils/thumbnail";
             article.createTime = article.createTime.split(" ")[0];
             article.thumbnail = article.thumbnail || defaultThumbnail;
           });
-          postArticleList.splice(0, postArticleList.length, ...data.rows);
+          postArticleList.push(...data.rows);
         });
         }
 
