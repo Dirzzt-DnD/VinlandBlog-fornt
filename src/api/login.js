@@ -1,4 +1,5 @@
 import http from '../utils/http'
+import { getRandomAvatar } from "../utils/avatar"
 
 export function loginApi(userName, password){
     return http({
@@ -20,7 +21,7 @@ export function registerApi(userName, nickName, email, password){
     return http({
         'url': '/user/register',
         'method': 'post',
-        data: { userName, nickName, email, password }
+        data: { userName, nickName, email, password, avatar: getRandomAvatar()}
         })
 }
 

@@ -38,7 +38,7 @@ export default{
     name:"VinlandArchiveCard",
     setup(){
         let archiveCounts = reactive([]);
-        getArchiveCountList(1, 8).then((data) => {
+        getArchiveCountList(1, 100).then((data) => {
             archiveCounts.push(...data.rows);
         });
         return { archiveCounts };

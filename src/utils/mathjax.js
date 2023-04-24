@@ -34,7 +34,7 @@ export function initMathJax(options={}, callback){
 }
 
 export function renderByMathjax(el){
-    if (!window.MathJax.version) {
+    if (!window.MathJax || !window.MathJax.version) {
         return
     }
 

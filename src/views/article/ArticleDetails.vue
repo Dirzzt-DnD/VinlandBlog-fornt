@@ -116,6 +116,46 @@
                         </router-link>
                     </div>
                 </div>
+
+                <div id="article-desc">
+                    posted @ {{ articleDetails.createTime.slice }}
+                    <span>{{ adminInfo.nickName }}</span>
+                    <span>阅读({{ articleDetails.viewCount }})</span>
+                    <span>评论({{ commentCount }})</span>
+                    <router-link :to="`/article/${articleDetails.id}/edit`" v-if="isAdmin">编辑</router-link>
+                </div>
+
+                <div id="comment-area" v-if="comments.length > 0">
+                    <div class="comment-area-title">
+                        <font-awesome-icon :icon="['fas', 'comments']" class="comment-icon" />评论列表
+                    </div>
+
+                    <div id="comment-items">
+                        <vinland-comment-item v-for="(comment, index) in comments" :key="comment.id"
+                            :comment="comment"
+                            :floorNumber="(currentCommentPageNum - 1) * commentPageSize + index + 1"
+                            @reply="onReplyComment" @update="onUpdateComment" @delete="onDeleteComment"
+                            />
+                    </div>
+
+                    <el-pagination background layout="prev, pager, next" :total="commentCount"
+                        :page-size="commentPageSize" id="comment-pagination"
+                        @current-change="onCurrentCommentPageChanged" v-if="commentCount > 0">
+                    </el-pagination>
+                </div>
+
+                <div id="comment-form">
+                    <div id="comment-form-title">✏️ 发表评论</div>
+                    <div id="comment-editor">
+                        <v-md-editor v-model="commentContent" id="mavon"
+                        left-toolbar="undo redo clear | emoji h bold italic strikethrough quote | ul ol table hr | link image code | save"
+                        :autofocus="true" :disabled-menus="[]" height="500px" width="100%" 
+                        @upload-image="handeleUploadImage"></v-md-editor>
+                        <button id="comment-submit-btn"
+                            @click="submitComment">{{ isInEditMode ? "修改评论" : "提交评论" }}</button>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -139,6 +179,9 @@ import { useDefaultThumbnail, defaultThumbnail } from '../../utils/thumbnail';
 import markdownIt from "../../utils/markdown-it";
 import {initMathJax, renderByMathjax} from "../../utils/mathjax"
 import router from '../../router';
+import { reactive } from "vue";
+import { getCommentList, addComment,updateComment,deleteComment } from '../../api/comment'
+import { getUserInfo } from "../../utils/storage";
 
 export default{
     setup(props){
@@ -146,7 +189,7 @@ export default{
 
         let articleLoaded = ref(false);
 
-        let articleDetails = reactive({});
+        let articleDetails = reactive({createTime: ""});
 
         let { adminInfo, isAdmin } = mapState("adminAbout");
 
@@ -155,7 +198,11 @@ export default{
 
         let previousArticle = reactive({});
         let nextArticle = reactive({});
-         let lightBoxRef = ref();
+        let lightBoxRef = ref();
+        let commentContent = ref("");
+        let isInEditMode = ref(false);
+        let editedComment = {};
+        let mavonRef = ref();
 
         getArticleDetails(props.id).then((data) => {
             Object.assign(articleDetails, data);
@@ -168,6 +215,7 @@ export default{
                 // buildCopyButton();
                 initMathJax({}, () => {
                     renderByMathjax(".article-content");
+                    renderByMathjax(".comment-item-content");
                 });
                 buildCodeBlock(".article-content");
                 articleLoaded.value = true;
@@ -192,21 +240,109 @@ export default{
         }
         })
 
+        let comments = reactive([])
+        let commentCount = ref(0)
+        let commentPageSize = 5
+        let currentCommentPageNum = ref(1)
+        onCurrentCommentPageChanged(1);
+        function onCurrentCommentPageChanged(pageNum) {
+            getCommentList(props.id, pageNum, commentPageSize).then(data => {
+                currentCommentPageNum.value = pageNum;
+                commentCount.value = parseInt(data.total);
+                comments.splice(0, comments.length, ...data.rows);
+
+                nextTick(() => {
+                    renderByMathjax(".comment-item-content");
+                    buildCodeBlock(".comment-item-content");
+                });
+            });
+        }
+
         function editArticle(){
             router.push(`/article/${props.id}/edit`)
         }
+
+
+        function handeleUploadImage(event, insertImage, files){
+            console.log(files)
+            for(let i in files){
+                uploadImage(files[i]).then((data) => {
+                    console.log(data)
+                    insertImage({
+                        url : data
+                    })
+                })
+            }
+        }
+
+        function submitComment() {
+            if (commentContent.value.trim().length == 0) {
+                ElMessage.warning("评论内容不能为空哦~");
+                return;
+            }
+
+            if(!isInEditMode.value){
+                var promise = addComment(props.id,commentContent.value)
+            }else{
+                var promise = updateComment(editedComment.id, commentContent.value)
+            }
+
+            promise.then(() => {
+                ElMessage.success("吐槽成功啦");
+                commentContent = "";
+                onCurrentCommentPageChanged(currentCommentPageNum.value);
+            })
+        }
+
+        function onReplyComment(comment){
+            commentContent.value = `@${commment.userName}\n>${comment.content.replace(/\n/g, "\n>")}\n\n`
+        }
+
+        function onDeleteComment(comment){
+            ElMessageBox.this.$confirm('删前请三思', '删除评论', {
+                confirmButtonText: '确认',
+                cancelButtonText: '删除',
+                type: 'warning'
+            }).then(() => {
+                deleteComment(comment.id).then(()=>{
+                    ElMessage.success("删除评论成功~");
+                    onCurrentCommentPageChanged(0);
+                })
+                
+            })
+        }
+
+        function onUpdateComment(comment){
+            commentContent.value = comment.content
+            isInEditMode.value = true;
+            editedComment = comment;
+        }
+
+
 
         return {
                 isAdmin,
                 articleDetails,
                 articleLoaded,
                 adminInfo,
-               articleUrl,
-               useDefaultThumbnail,
-               previousArticle,
-               nextArticle,
-               lightBoxRef,
-               editArticle
+                articleUrl,
+                comments,
+                commentCount,
+                commentPageSize,
+                currentCommentPageNum,
+                useDefaultThumbnail,
+                onCurrentCommentPageChanged,
+                previousArticle,
+                nextArticle,
+                lightBoxRef,
+                editArticle,
+                handeleUploadImage,
+                submitComment,
+                commentContent,
+                onReplyComment,
+                onDeleteComment,
+                onUpdateComment,
+                isInEditMode
             };
     },
      props: ["id"],
@@ -648,6 +784,73 @@ export default{
             }
         }
     }
+
+    #article-desc {
+        font-size: 14px;
+        margin-top: 8px;
+        text-align: right;
+        color: var(--text-color);
+        span,
+        a {
+            padding: 0 4px;
+        }
+        a {
+            text-decoration: none;
+            color: var(--text-color);
+            transition: all 0.6s ease-out;
+            &:hover {
+                color: var(--theme-color);
+            }
+        }
+    }
+    #comment-area {
+        margin-top: 70px;
+        .comment-area-title {
+            font-size: 20px;
+            margin: 20px 0;
+            padding-bottom: 5px;
+            .comment-icon {
+                margin-right: 7px;
+                color: #e173b3;
+            }
+        }
+        :deep(#comment-pagination) {
+            margin: 20px 0;
+            justify-content: center;
+            .number,
+            .btn-prev,
+            .btn-next {
+                border-radius: 6px;
+            }
+        }
+    }
+
+    #comment-form {
+        #comment-form-title {
+            font-size: 20px;
+            margin: 40px 0 20px;
+            color: var(--text-color);
+        }
+        #comment-editor {
+            #mavon {
+                border-color: #eef2f8;
+            }
+            #comment-submit-btn {
+                color: white;
+                background-color: var(--theme-color);
+                border: 1px solid var(--theme-color);
+                border-radius: 5px;
+                cursor: pointer;
+                padding: 7px 17px;
+                font-size: 13px;
+                margin: 10px 0;
+                transition: all 0.3s ease-out;
+                &:hover {
+                    opacity: 0.7;
+                }
+            }
+        }
+    }
 }
 @media screen and (max-width: 900px) {
     .side-content {
@@ -655,6 +858,10 @@ export default{
     }
     .post-body {
         width: 100%;
+    }
+
+    #article-desc {
+        display: none;
     }
 }
 
