@@ -210,7 +210,6 @@ export default{
 .thumbnail-card{
     border: 1px solid #c0ccda;
     position: relative;
-
     #thumbnail{
         width: 100%;
         height: 100%;

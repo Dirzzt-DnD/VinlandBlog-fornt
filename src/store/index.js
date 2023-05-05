@@ -4,7 +4,7 @@ import { getArticleCount } from '../api/articleInfo'
 import { getCategoryCountList } from '../api/categoryInfo'
 import { getTagCountList } from '../api/tagInfo'
 import { getUserInfo } from "../utils/storage"
-
+import avatarImg from '../assets/image/avatar.jpg'
 
 let adminAbout = {
     namespaced: true,
@@ -12,7 +12,7 @@ let adminAbout = {
         adminInfo: {
             nickName: "",
             motto: "",
-            avatar: "src/assets/image/avatar.jpg",
+            avatar: avatarImg,
             githubUrl: "https://github.com/Dirzzt-DnD"
         },
 

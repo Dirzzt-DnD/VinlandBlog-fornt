@@ -3,6 +3,7 @@ import { ElMessage } from 'element-plus'
 
 
 const service = axios.create({
+    // baseURL: "http://150.158.164.173:443/vinlandblog/api/image/"
     baseURL: "http://localhost:8803/vinlandblog/api/image/"
 })
 

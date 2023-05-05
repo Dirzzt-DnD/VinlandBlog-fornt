@@ -4,19 +4,19 @@
             <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="0px" class="login-ruleForm">
                 <el-form-item prop="userName">
                     <el-input v-model="ruleForm.userName" class="w-50 m-3" size="large" placeholder="用户名">
-                    <template #prefix>
-                        <IEpUser/>
-                    </template>
+                        <template #prefix>
+                            <IEpUser/>
+                        </template>
                     </el-input>
                 </el-form-item>
 
                 <el-form-item prop="password">
                     <el-input v-model="ruleForm.password" class="w-50 m-2" size="large" type="password" placeholder="密码">
-                        <template #prefix>
-                            <IEpLock/>
-                        </template>
+                            <template #prefix>
+                                <IEpLock/>
+                            </template>
                     </el-input>
-                </el-form-item>
+                </el-form-item> 
 
                 <el-form-item>
                     <el-checkbox label="记住密码" name="type"></el-checkbox>

@@ -21,11 +21,11 @@ export function addComment(articleId, content) {
     })
 }
 
-export function updateComment(id, comment){
+export function updateComment(id, content){
     return http({
         url: "/comment",
         method: "put",
-        data: {id, comment},
+        data: {id, content},
         needAuthentication: true
     })
 }

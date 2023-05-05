@@ -155,8 +155,6 @@ export default{
     z-index: 997;
     background-size: cover;
 }
-
-
 .footer-image2 {
     width: 100%;
     height: 270px;
@@ -167,7 +165,6 @@ export default{
     z-index: 999;
     background-size: cover;
 }
-
 .footer-image3 {
     width: 100%;
     height: 270px;
@@ -175,6 +172,44 @@ export default{
     position: absolute;
     top: -293px;
     right: 100px;
+    z-index: 998;
+    background-size: cover;
+}
+
+
+}
+
+@media screen and (max-width: 500px) {
+    .footer-image {
+    width: 70%;
+    height: 170px;
+    background: url("../assets/image/footer1.png") 50% center no-repeat;
+    position: absolute;
+    left: 121px;
+    top: -173px;
+    z-index: 997;
+    background-size: cover;
+}
+
+
+.footer-image2 {
+    width: 70%;
+    height: 170px;
+    background: url("../assets/image/footer2.png") 50% center no-repeat;
+    position: absolute;
+    top: -173px;
+    right: 100px;
+    z-index: 999;
+    background-size: cover;
+}
+
+.footer-image3 {
+    width: 70%;
+    height: 170px;
+    background: url("../assets/image/footer3.png") 50% center no-repeat;
+    position: absolute;
+    top: -173px;
+    right: 250px;
     z-index: 998;
     background-size: cover;
 }

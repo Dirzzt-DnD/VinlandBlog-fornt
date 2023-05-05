@@ -1,6 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import StartView from '../views/StartView.vue'
-import ArticleInfoTableView from '../views/ArticleInfoTableView.vue'
 import ArticleDetails from '../views/article/ArticleDetails.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
@@ -18,7 +16,6 @@ import { getUserInfo } from "../utils/storage"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  component: StartView,
   routes: [
 
     {
@@ -44,12 +41,6 @@ const router = createRouter({
         needAuthentication: true
       }
     },
-
-    {
-      path: '/articleInfo',
-      name: 'articleInfo',
-      component: ArticleInfoTableView,
-    },
     {
       path: '/login',
       name: 'login',
@@ -60,15 +51,6 @@ const router = createRouter({
       path: "/register",
       name: "Register",
       component: Register,
-    },
-
-    {
-      path: '/startView',
-      name: 'start',
-      component: StartView,
-      meta: {
-        title: '起始页'
-      }
     },
     {
       path: "/article/:id",

@@ -7,8 +7,9 @@ import router from "../router";
 axios.defaults.headers['Content-Type'] = "application/json;charset=utf-8"
 
 var configOptions = {
+    // baseURL: 'http://150.158.164.173:443/vinlandblog/api/',
     baseURL: 'http://localhost:8803/vinlandblog/api/',
-    timeout: 600000,
+	timeout: 600000,
 }
 
 var httpClient = axios.create(configOptions)

@@ -27,7 +27,7 @@ export default {
 </script>
 
 <style scoped>
-@import url(https://fonts.googleapis.com/css?family=Kanit:900);
+    @import url(https://fonts.googleapis.com/css?family=Kanit:900);
 .card-header {
     justify-content: space-between;
     align-items: center;

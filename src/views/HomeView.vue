@@ -1,7 +1,7 @@
 <template>
   <div id="home">
     <vinland-header/>
-    <vinland-cover imgUrl="src/assets/image/home-cover.jpg" title="Vinland Blog" content="真正的战士不用剑">
+    <vinland-cover title="Vinland Blog" content="真正的战士不用剑">
     </vinland-cover>
     <div class="container">
       <vinland-side-bar/>
@@ -97,7 +97,6 @@ import { defaultThumbnail } from "../utils/thumbnail";
 
 :deep(#pagination li) {
     box-shadow: var(--card-box-shadow);
-    /*FIXME ?*/ 
     background-color: white;
     border-radius: 8px;
     margin: 0 6px;

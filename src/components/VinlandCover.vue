@@ -12,11 +12,14 @@
 <script>
 import {reactive} from "vue"
 import createParticles from "../utils/text-effect"
+import cover from '../assets/image/home-cover.jpg'
 export default{
     name:"VinlandCover",
     setup(props){
+        var homeCover = ()  => import(`../${props.imgUrl}.jpg`)
+        console.log(homeCover)
         let coverStyle = reactive({
-            background: 'url('+props.imgUrl+')',
+            background: `url(${cover})`,
             backgroundSize: "cover",
         })
 
@@ -31,10 +34,6 @@ export default{
         createParticles();
     },
     props:{
-        imgUrl: {
-            type: String,
-            require: true
-        },
         title: {
             type: String,
             require: true,

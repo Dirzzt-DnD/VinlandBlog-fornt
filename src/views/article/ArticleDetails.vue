@@ -117,33 +117,36 @@
                     </div>
                 </div>
 
+                <!-- 文章描述 -->
                 <div id="article-desc">
-                    posted @ {{ articleDetails.createTime.slice }}
+                    <span>{{ articleDetails.createTime.slice(0, -3) }}</span>
                     <span>{{ adminInfo.nickName }}</span>
                     <span>阅读({{ articleDetails.viewCount }})</span>
                     <span>评论({{ commentCount }})</span>
                     <router-link :to="`/article/${articleDetails.id}/edit`" v-if="isAdmin">编辑</router-link>
                 </div>
 
+                <!-- 评论列表 -->
                 <div id="comment-area" v-if="comments.length > 0">
                     <div class="comment-area-title">
                         <font-awesome-icon :icon="['fas', 'comments']" class="comment-icon" />评论列表
                     </div>
 
+                    <!-- 评论 -->
                     <div id="comment-items">
                         <vinland-comment-item v-for="(comment, index) in comments" :key="comment.id"
-                            :comment="comment"
-                            :floorNumber="(currentCommentPageNum - 1) * commentPageSize + index + 1"
-                            @reply="onReplyComment" @update="onUpdateComment" @delete="onDeleteComment"
-                            />
+                            :comment="comment" :floorNumber="(currentCommentPageNum - 1) * commentPageSize + index + 1"
+                            @reply="onReplyComment" @update="onUpdateComment" @delete="onDeleteComment" />
                     </div>
 
+                    <!-- 分页 -->
                     <el-pagination background layout="prev, pager, next" :total="commentCount"
                         :page-size="commentPageSize" id="comment-pagination"
                         @current-change="onCurrentCommentPageChanged" v-if="commentCount > 0">
                     </el-pagination>
                 </div>
 
+                <!-- 发表评论 -->
                 <div id="comment-form">
                     <div id="comment-form-title">✏️ 发表评论</div>
                     <div id="comment-editor">
@@ -181,8 +184,7 @@ import {initMathJax, renderByMathjax} from "../../utils/mathjax"
 import router from '../../router';
 import { reactive } from "vue";
 import { getCommentList, addComment,updateComment,deleteComment } from '../../api/comment'
-import { getUserInfo } from "../../utils/storage";
-
+import { uploadImage } from "../../api/image";
 export default{
     setup(props){
         window.scrollTo({ top: 0 });
@@ -199,11 +201,7 @@ export default{
         let previousArticle = reactive({});
         let nextArticle = reactive({});
         let lightBoxRef = ref();
-        let commentContent = ref("");
-        let isInEditMode = ref(false);
-        let editedComment = {};
-        let mavonRef = ref();
-
+       
         getArticleDetails(props.id).then((data) => {
             Object.assign(articleDetails, data);
             const html = markdownIt.render(data.content);
@@ -240,11 +238,12 @@ export default{
         }
         })
 
-        let comments = reactive([])
-        let commentCount = ref(0)
-        let commentPageSize = 5
-        let currentCommentPageNum = ref(1)
+        let comments = reactive([]);
+        let commentCount = ref(0);
+        let commentPageSize = 5;
+        let currentCommentPageNum = ref(1);
         onCurrentCommentPageChanged(1);
+
         function onCurrentCommentPageChanged(pageNum) {
             getCommentList(props.id, pageNum, commentPageSize).then(data => {
                 currentCommentPageNum.value = pageNum;
@@ -258,9 +257,13 @@ export default{
             });
         }
 
-        function editArticle(){
-            router.push(`/article/${props.id}/edit`)
+        function editArticle() {
+            router.push(`/article/${props.id}/edit`);
         }
+
+        let commentContent = ref("");
+        let isInEditMode = ref(false);
+        let editedComment = {};
 
 
         function handeleUploadImage(event, insertImage, files){
@@ -281,25 +284,29 @@ export default{
                 return;
             }
 
-            if(!isInEditMode.value){
-                var promise = addComment(props.id,commentContent.value)
-            }else{
-                var promise = updateComment(editedComment.id, commentContent.value)
+            if (!isInEditMode.value) {
+                var promise = addComment(props.id, commentContent.value);
+            } else {
+                var promise = updateComment(editedComment.id, commentContent.value);
             }
+
+            console.log(isInEditMode.value)
 
             promise.then(() => {
                 ElMessage.success("吐槽成功啦");
-                commentContent = "";
+                commentContent.value = "";
                 onCurrentCommentPageChanged(currentCommentPageNum.value);
             })
+
+            isInEditMode.value = false;
         }
 
         function onReplyComment(comment){
-            commentContent.value = `@${commment.userName}\n>${comment.content.replace(/\n/g, "\n>")}\n\n`
+            commentContent.value = `@${comment.userName}\n>${comment.content.replace(/\n/g, "\n>")}\n\n`
         }
 
         function onDeleteComment(comment){
-            ElMessageBox.this.$confirm('删前请三思', '删除评论', {
+            ElMessageBox.confirm('删前请三思', '删除评论', {
                 confirmButtonText: '确认',
                 cancelButtonText: '删除',
                 type: 'warning'
