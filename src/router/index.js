@@ -1,17 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import ArticleDetails from '../views/article/ArticleDetails.vue'
-import Login from '../views/Login.vue'
-import Register from '../views/Register.vue'
-import HomeView from '../views/HomeView.vue'
-import ArticleEdit from "../views/article/ArticleEdit.vue"
-import Settings from '../views/Settings.vue'
-import CategoryDetails from '../views/category/CategoryDetails.vue'
-import CategoryList from '../views/category/CategoryList.vue'
-import TagDetails from '../views/Tag/TagDetails.vue'
-import TagList from '../views/Tag/TagList.vue'
-import ArchiveList from '../views/archive/ArchiveList.vue'
-import ArchiveDetails from '../views/archive/ArchiveDetails.vue'
-import PageNotFound from '../views/PageNotFound.vue'
 import { getUserInfo } from "../utils/storage"
 
 const router = createRouter({
@@ -21,12 +8,12 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: () => import("../views/HomeView.vue"),
     },
     {
       path: "/article/:id/edit",
       name: "ArticleEdit",
-      component: ArticleEdit,
+      component: () => import("../views/article/ArticleEdit.vue"),
       props: true,
       meta: {
           needAuthentication: true
@@ -36,7 +23,7 @@ const router = createRouter({
     {
       path: "/article/add",
       name: "ArticleAdd",
-      component: ArticleEdit,
+      component: () => import("../views/article/ArticleEdit.vue"),
       meta:{
         needAuthentication: true
       }
@@ -44,24 +31,24 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: Login,
+      component: () => import("../views/Login.vue"),
     },
 
     {
       path: "/register",
       name: "Register",
-      component: Register,
+      component: () => import("../views/Register.vue"),
     },
     {
       path: "/article/:id",
       name: "Article",
-      component: ArticleDetails,
+      component: () => import("../views/article/ArticleDetails.vue"),
       props: true
     },
     {
       path: "/user/settings",
       name: "UserSettings",
-      component: Settings,
+      component: () => import("../views/Settings.vue"),
       props: true,
       meta: {
         needLogin: true
@@ -70,39 +57,39 @@ const router = createRouter({
     {
       path: "/category/:id",
       name: "CategoryDetails",
-      component: CategoryDetails,
+      component: () => import("../views/category/CategoryDetails.vue"),
       props: true
   },
   {
     path: "/category",
     name: "CategoryList",
-    component: CategoryList,
+    component: () => import("../views/category/CategoryList.vue"),
   },
   {
       path: "/tag/:id",
       name: "TagDetails",
-      component: TagDetails,
+      component: () => import("../views/Tag/TagDetails.vue"),
       props: true
   },
   {
     path: "/tag",
     name: "TagList",
-    component: TagList,
+    component: () => import("../views/Tag/TagList.vue"),
   },
   {
     path:"/archive",
     name:"ArchiveList",
-    component: ArchiveList
+    component: () => import("../views/archive/ArchiveList.vue")
   },
   {
     path:"/archive/:year/:month",
     name:"ArchiveDetails",
-    component: ArchiveDetails,
+    component: () => import("../views/archive/ArchiveDetails.vue"),
     props: true
   },
   {
     path: '/:pathMatch(.*)*',
-    component: PageNotFound
+    component: () => import("../views/PageNotFound.vue")
   }
   ]
 })
