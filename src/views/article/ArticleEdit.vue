@@ -254,6 +254,7 @@ export default{
                 })
             }
         }
+        
         nextTick(() => {
             window.scrollTo({ top: 0 });
         });

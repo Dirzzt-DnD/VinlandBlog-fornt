@@ -59,7 +59,6 @@ import { defaultThumbnail } from "../utils/thumbnail";
 #home {
     height: 100%;
     width: 100%;
-    background-color: #f3f6f7;
 }
 .container{
   padding: 40px 15px;
