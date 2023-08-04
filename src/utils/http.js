@@ -7,8 +7,7 @@ import router from "../router";
 axios.defaults.headers['Content-Type'] = "application/json;charset=utf-8"
 
 var configOptions = {
-    // baseURL: 'http://150.158.164.173:443/vinlandblog/api/',
-    baseURL: 'http://localhost:8803/vinlandblog/api/',
+    baseURL: import.meta.env.VITE_API_BASE_URL,
 	timeout: 600000,
 }
 
