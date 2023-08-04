@@ -80,37 +80,36 @@ export default{
     position: absolute;
 }
 
-
 .footer-image {
-    width: 100%;
+    width: 80%;
     height: 270px;
     background: url("../assets/image/footer1.png") 50% center no-repeat;
     position: absolute;
-    left: 650px;
-    top: -293px;
+    right: 0px;
+    top: -270px;
     z-index: 997;
     background-size: cover;
 }
 
 
 .footer-image2 {
-    width: 100%;
+    width: 80%;
     height: 270px;
     background: url("../assets/image/footer2.png") 50% center no-repeat;
     position: absolute;
-    top: -293px;
-    right: 950px;
+    top: -270px;
+    right: 500px;
     z-index: 999;
     background-size: cover;
 }
 
 .footer-image3 {
-    width: 100%;
+    width: 80%;
     height: 270px;
     background: url("../assets/image/footer3.png") 50% center no-repeat;
     position: absolute;
-    top: -293px;
-    right: 100px;
+    top: -270px;
+    right: 1200px;
     z-index: 998;
     background-size: cover;
 }
@@ -146,33 +145,33 @@ export default{
 
 @media screen and (max-width: 2000px) {
     .footer-image {
-    width: 100%;
+    width: 80%;
     height: 270px;
     background: url("../assets/image/footer1.png") 50% center no-repeat;
     position: absolute;
-    left: 350px;
-    top: -293px;
+    top: -270px;
     z-index: 997;
+    right: 0px;
     background-size: cover;
 }
 .footer-image2 {
-    width: 100%;
+    width: 80%;
     height: 270px;
     background: url("../assets/image/footer2.png") 50% center no-repeat;
     position: absolute;
-    top: -293px;
-    right: 650px;
+    top: -270px;
     z-index: 999;
+    right: 350px;
     background-size: cover;
 }
 .footer-image3 {
-    width: 100%;
+    width: 80%;
     height: 270px;
     background: url("../assets/image/footer3.png") 50% center no-repeat;
     position: absolute;
-    top: -293px;
-    right: 100px;
+    top: -270px;
     z-index: 998;
+    right: 750px;
     background-size: cover;
 }
 
